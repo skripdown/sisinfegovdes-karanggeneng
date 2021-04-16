@@ -1,5 +1,6 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
 
+use App\Http\back\metasystem\System;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,22 @@ class CreateCitizensTable extends Migration
      */
     public function up()
     {
+        System::init(
+            'Citizen', 'Penduduk',
+            [
+                ['label'=>'nama', 'pointer'=>'name'],
+                ['label'=>'NIK', 'pointer'=>'identity'],
+                ['label'=>'foto', 'pointer'=>'pic'],
+                ['label'=>'tanggal_lahir', 'pointer'=>'day_birth'],
+                ['label'=>'bulan_lahir', 'pointer'=>'month_birth'],
+                ['label'=>'tahun_lahir', 'pointer'=>'year_birth'],
+                ['label'=>'tempat_lahir', 'pointer'=>'place_birth'],
+                ['label'=>'kawin', 'pointer'=>'marriage'],
+                ['label'=>'kelamin', 'pointer'=>'gender'],
+                ['label'=>'darah', 'pointer'=>'blood'],
+                ['label'=>'telepon', 'pointer'=>'phone', 'model'=>'user', 'source'=>true],
+            ]
+        );
         Schema::create('citizens', function (Blueprint $table) {
             $table->id();
             $table->string('name');

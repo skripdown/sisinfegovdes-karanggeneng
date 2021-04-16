@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\back\metasystem\System;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,12 @@ class CreateEducationTable extends Migration
      */
     public function up()
     {
+        System::init(
+            'Education', 'Pendidikan',
+            [
+                ['label'=>'nama', 'pointer'=>'name'],
+            ]
+        );
         Schema::create('education', function (Blueprint $table) {
             $table->id();
             $table->string('name');

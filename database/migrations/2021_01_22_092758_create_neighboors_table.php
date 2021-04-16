@@ -1,5 +1,6 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
 
+use App\Http\back\metasystem\System;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,12 @@ class CreateNeighboorsTable extends Migration
      */
     public function up()
     {
+        System::init(
+            'Neighboor', 'RW',
+            [
+                ['label'=>'nama', 'pointer'=>'name'],
+            ]
+        );
         Schema::create('neighboors', function (Blueprint $table) {
             $table->id();
             $table->string('name');

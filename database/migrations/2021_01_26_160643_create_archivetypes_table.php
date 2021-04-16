@@ -17,6 +17,10 @@ class CreateArchivetypesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('code')->unique();
+            $table->string('token')->unique();
+            $table->string('folder_path');
+            $table->bigInteger('officer_id')->unsigned();
+            $table->foreign('officer_id')->references('id')->on('officers')->onDelete('cascade');
             $table->timestamps();
         });
     }

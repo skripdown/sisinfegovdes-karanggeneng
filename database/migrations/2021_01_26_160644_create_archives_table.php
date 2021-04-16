@@ -17,9 +17,14 @@ class CreateArchivesTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('archivetype_id')->unsigned();
+            $table->bigInteger('officer_id')->unsigned();
             $table->string('token')->unique();
             $table->string('filename');
+            $table->string('extension');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('archivetype_id')->references('id')->on('archivetypes')->onDelete('cascade');
+            $table->foreign('officer_id')->references('id')->on('officers')->onDelete('cascade');
             $table->timestamps();
         });
     }

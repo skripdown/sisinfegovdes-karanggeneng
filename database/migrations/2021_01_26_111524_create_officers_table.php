@@ -1,5 +1,6 @@
-<?php
+<?php /** @noinspection SpellCheckingInspection */
 
+use App\Http\back\metasystem\System;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,19 @@ class CreateOfficersTable extends Migration
      */
     public function up()
     {
+        System::init(
+            'Officer', 'Pegawai',
+            [
+                ['label'=>'NIP', 'pointer'=>'identity'],
+                ['label'=>'jenis', 'pointer'=>'status'],
+                ['label'=>'pangkat_jabatan', 'pointer'=>'rank'],
+                ['label'=>'golongan', 'pointer'=>'set'],
+                ['label'=>'ruang', 'pointer'=>'room'],
+                ['label'=>'posisi', 'pointer'=>'occupation'],
+                ['label'=>'gaji', 'pointer'=>'salary'],
+                ['label'=>'status', 'pointer'=>'regis'],
+            ]
+        );
         Schema::create('officers', function (Blueprint $table) {
             $table->id();
             $table->string('identity')->default('');
