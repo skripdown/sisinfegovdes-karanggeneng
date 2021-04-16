@@ -160,6 +160,14 @@ Route::get('/requestarchives',function (){return redirect()->route('request_arch
 
 Route::get('/archives{flag}','ArchiveController@archives')->name('archives');
 Route::get('/archives',function (){return redirect()->route('archives', [_UI::$FLAG_UI]);});
+Route::get('/type/{token}', 'ArchiveController@downloadType');
+Route::post('typeInsert', 'ArchiveController@insertType');
+Route::post('typeEdit', 'ArchiveController@editType');
+Route::post('typeDelete', 'ArchiveController@deleteType');
+Route::post('typeClear', 'ArchiveController@clearType');
+
+Route::get('/archive/{token}', 'ArchiveController@downloadArchive');
+Route::post('archiveDelete', 'ArchiveController@deleteArchive');
 
 Route::get('/registrations{flag}','RegistrationController@registrations')->name('registrations');
 Route::get('/registrations',function () {return redirect()->route('registrations', [_UI::$FLAG_UI]);});
@@ -224,3 +232,23 @@ Route::post('logClear', 'LogController@clear');
 Route::get('/users{flag}','UserController@users')->name('users');
 
 Route::post('ckeditor/upload','EditorController@image')->name('ckeditor.image-upload');
+
+Route::get('/test', function (){
+//    $str = 'App\\Models\\Citizen';
+//    $where = 'where';
+//    $first = 'get';
+//    $name  = 'name as nama';
+//    $fun   = [];
+//    $fun['user'] = function($query) use($name) {return $query->select(['id',$name]);};
+//    $cit = $str::with($fun)->select(['identity as identitas pengguna', 'gender', 'user_id']);
+//    $cit = $cit->$where('gender', 'perempuan');
+//    return $cit->$first();
+
+
+
+
+    $syntax = 'data Penduduk pilih(NIK, telepon)';
+    //$syntax = 'data Penduduk';
+    $model  = \App\Http\back\metasystem\System::process($syntax);
+    return $model;
+});
