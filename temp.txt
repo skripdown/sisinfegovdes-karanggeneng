@@ -1,10 +1,1 @@
-<div class="d-flex no-block align-items-center">
-    <div class="mr-3">
-        <img src="'+pic_admin+user.pic+'" alt="user" class="rounded-circle" width="45" height="45" />
-    </div>
-    <div class="">
-        <h5 class="text-dark mb-0 font-16 font-weight-medium">'+citizen.name+'</h5>
-        <span class="text-muted font-14">'+officer.identity+'</span>
-    </div>
-</div>
-<hr>
+(?:(?:"(?:\\"|[^"])+")|(?:'(?:\\'|[^'])+'))|[\d]+|""|\b(SEMUA|SEKARANG|KEMARIN|BULAN_LALU|TAHUN_LALU)\b
