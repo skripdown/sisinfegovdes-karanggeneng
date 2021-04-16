@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('title')
-    Request Archive
+    Permohonan Arsip
 @endsection
 
 @section('page-breadcrumb')
@@ -32,9 +32,20 @@
 
 @section('script-body')
     <script>
-        _card.render({
-            element : 'data-request',
-            items : [
+        let content;
+        if (_request._len === 0) {
+            content = document.createElement('div');
+            content.setAttribute('class', 'text-center text-muted');
+            content.innerHTML = '<div class="m-4 p-4">tidak ada permohonan surat atau arsip.</div>';
+            content = [{
+                title   : 'Data Permohonan',
+                label   : 'ti-archive',
+                id      : 'data-permohonan',
+                content : content
+            }];
+        }
+        else {
+            content = [
                 {
                     title : 'Data Permohonan',
                     label : 'ti-archive',
@@ -76,6 +87,10 @@
                     ])
                 }
             ]
+        }
+        _card.render({
+            element : 'data-request',
+            items : content
         });
         _transition.out();
     </script>
