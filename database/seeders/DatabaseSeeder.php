@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             FamilySeeder::class,
             UserSeeder::class,
             CitizenSeeder::class,
+            ArchivetypeSeeder::class,
         ]);
         _Log::system(_Log::$SUCCESS, 'deploying system success');
     }

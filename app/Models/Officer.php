@@ -47,6 +47,14 @@ class Officer extends Model
         });
     }
 
+    public function archives(): HasMany {
+        return $this->hasMany(Archive::class);
+    }
+
+    public function archivetypes(): HasMany {
+        return $this->hasMany(Archivetype::class);
+    }
+
     public function requestmutates(): HasMany {
         return $this->hasMany(Requestmutate::class);
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\back\_App;
 use App\Http\back\_Image;
 use App\Http\back\_Log;
 use App\Models\Citeducation;
@@ -35,6 +36,7 @@ class CitizenSeeder extends Seeder
         $occupation = Occupation::all()->firstWhere('id', 4);
         $user1      = new User(['name'=>'Rina Fachriani Putri', 'identity'=>'111222333', 'email'=>'rina123@sisegov.test', 'phone'=>'09876876543', 'password'=>Hash::make('ctz1pass'), 'pic'=>_Image::setDefaultProfile('Rina Fachriani Putri', 'ctz_1', 'citizen', false), 'usable'=>true]);
         $user1->save();
+        _App::new($user1);
         $citizen1   = new Citizen(['name'=>$user1->name, 'identity'=>$user1->identity, 'pic'=>$user1->pic, 'gender'=>'perempuan','blood'=>'b+','day_birth'=>16,'month_birth'=>11,'year_birth'=>1997,'place_birth'=>'Surabaya']);
         $citizen1->district()->associate($district);
         $citizen1->hamlet()->associate($hamlet);
@@ -60,6 +62,7 @@ class CitizenSeeder extends Seeder
         $occupation = Occupation::all()->firstWhere('id', 1);
         $user2      = new User(['name'=>'Nikola Fadila Tesla', 'identity'=>'333222111', 'email'=>'niko123@sisegov.test', 'phone'=>'1029384756', 'password'=>Hash::make('ctz2pass'), 'pic'=>_Image::setDefaultProfile('Nikola Fadila Tesla', 'ctz_2', 'citizen', false), 'usable'=>true]);
         $user2->save();
+        _App::new($user2);
         $citizen2   = new Citizen(['name'=>$user2->name, 'identity'=>$user2->identity, 'pic'=>$user2->pic, 'gender'=>'laki-laki','blood'=>'ab+','day_birth'=>18,'month_birth'=>6,'year_birth'=>2002,'place_birth'=>'Malang']);
         $citizen2->district()->associate($district);
         $citizen2->hamlet()->associate($hamlet);

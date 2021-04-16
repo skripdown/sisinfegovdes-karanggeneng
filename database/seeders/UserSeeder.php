@@ -4,6 +4,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\back\_App;
 use App\Http\back\_Image;
 use App\Http\back\_Log;
 use App\Models\Citeducation;
@@ -42,6 +43,7 @@ class UserSeeder extends Seeder
         $occupation = Occupation::all()->first();
         $adm1 = new User(['name'=>'Mang Oleh', 'identity'=>'1234567890', 'email'=>'mangoleh123@sisegov.test', 'phone'=>'081343373983', 'password'=>Hash::make('adm1pass'), 'pic'=>_Image::setDefaultProfile('Mang Oleh', 'adm_1', 'admin', true), 'usable'=>true]);
         $adm1->save();
+        _App::new($adm1);
         $adm1->role()->save(new Role(['admin'=>true, 'account'=>true, 'publication'=>true, 'civil'=>true, 'employee'=>true, 'archive'=>true, 'developer'=>true]));
         $adm1->officer()->save(new Officer(['identity'=>'123123123','status'=>'asn', 'rank'=>'pembina utama', 'set'=>'iv', 'room'=>'e', 'occupation'=>'admin', 'salary'=>5000000,'regis'=>'in']));
         $ctz = new Citizen(['name'=>$adm1->name, 'identity'=>$adm1->identity, 'pic'=>$adm1->pic, 'gender'=>'laki-laki','blood'=>'a+','day_birth'=>10,'month_birth'=>8,'year_birth'=>1995,'place_birth'=>'Lamongan']);
@@ -69,6 +71,7 @@ class UserSeeder extends Seeder
         $occupation = Occupation::all()->firstWhere('id', 1);
         $adm2       = new User(['name'=>'Malik Fajar Lapele', 'identity'=>'201610370311138', 'email'=>'malko18@sisegov.test', 'phone'=>'081242824041', 'password'=>Hash::make('head1pass'), 'pic'=>_Image::setDefaultProfile('Malik Lapele', 'head_1', 'admin', true), 'usable'=>true]);
         $adm2->save();
+        _App::new($adm2);
         $adm2->role()->save(new Role(['chief'=>true]));
         $adm2->officer()->save(new Officer(['identity'=>'201610370311138','status'=>'asn', 'rank'=>'pembina utama', 'set'=>'iv', 'room'=>'e', 'occupation'=>'head', 'salary'=>15000000,'regis'=>'in']));
         $ctz2 = new Citizen(['name'=>$adm2->name, 'identity'=>$adm2->identity, 'pic'=>$adm2->pic, 'gender'=>'laki-laki','blood'=>'b+','day_birth'=>18,'month_birth'=>3,'year_birth'=>1998,'place_birth'=>'Ambon']);
@@ -93,6 +96,7 @@ class UserSeeder extends Seeder
 
         $adm2       = new User(['name'=>'Erwin Fachriani', 'identity'=>'201610370311139', 'email'=>'erwin12@sisegov.test', 'phone'=>'08323284893', 'password'=>Hash::make('adm2pass'), 'pic'=>_Image::setDefaultProfile('Erwin Fachriani', 'adm_2', 'admin', true), 'usable'=>true]);
         $adm2->save();
+        _App::new($adm2);
         $adm2->role()->save(new Role(['admin'=>true, 'account'=>true, 'publication'=>true,]));
         $adm2->officer()->save(new Officer(['identity'=>'10102929','status'=>'asn', 'rank'=>'pembina utama', 'set'=>'iv', 'room'=>'e', 'occupation'=>'head', 'salary'=>15000000,'regis'=>'in']));
         $ctz2 = new Citizen(['name'=>$adm2->name, 'identity'=>$adm2->identity, 'pic'=>$adm2->pic, 'gender'=>'laki-laki','blood'=>'b+','day_birth'=>3,'month_birth'=>7,'year_birth'=>1966,'place_birth'=>'Sidoarjo']);

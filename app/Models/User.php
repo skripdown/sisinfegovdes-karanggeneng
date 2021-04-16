@@ -70,6 +70,10 @@ class User extends Authenticatable
         return $this->hasOne(Role::class);
     }
 
+    public function app(): HasOne {
+        return $this->hasOne(App::class);
+    }
+
     public function officer(): HasOne {
         return $this->hasOne(Officer::class);
     }
