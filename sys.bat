@@ -11,6 +11,7 @@ EXIT
 
 :DEPLOY
 start /wait py auto/storage_fresh.py
+start /wait py auto/clear_archive.py
 start /wait php artisan migrate:fresh --seed
 GOTO START
 
