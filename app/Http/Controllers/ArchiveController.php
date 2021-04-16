@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -34,6 +35,7 @@ class ArchiveController extends Controller
             if ($show && _Authorize::manage(\App\Http\back\authorize\Archive::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.archive"');
                 _Activity::do('mengakses halaman permohonan arsip');
+                _App::page('archives', $flag);
                 return view('admin.archive',compact('data'));
             }
         }

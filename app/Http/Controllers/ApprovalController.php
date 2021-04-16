@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Image;
 use App\Http\back\_Log;
@@ -43,6 +44,7 @@ class ApprovalController extends Controller
         if ($show && _Authorize::chief()) {
             _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.approval"');
             _Activity::do('mengakses halaman pengajuan persetujuan');
+            _App::page('approvals', $flag);
             return view('admin.approval', compact('data'));
         }
         if (_Authorize::citizen()) {

@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Image;
 use App\Http\back\_Log;
@@ -44,6 +45,7 @@ class OfficerController extends Controller
             if ($show && _Authorize::manage(Employee::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.officer"');
                 _Activity::do('mengakses halaman pegawai');
+                _App::page('officers', $flag);
                 return view('admin.officer',compact('data'));
             }
         }
@@ -311,6 +313,7 @@ class OfficerController extends Controller
             if ($show && _Authorize::manage(Employee::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.mutation_in"');
                 _Activity::do('mengakses halaman mutasi masuk');
+                _App::page('mutation_ins', $flag);
                 return view('admin.mutation_in',compact('data'));
             }
         }
@@ -348,6 +351,7 @@ class OfficerController extends Controller
             if ($show && _Authorize::manage(Employee::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.mutation_out"');
                 _Activity::do('mengakses halaman mutasi keluar');
+                _App::page('mutation_outs', $flag);
                 return view('admin.mutation_out',compact('data'));
             }
         }
@@ -385,6 +389,7 @@ class OfficerController extends Controller
             if ($show && _Authorize::manage(Employee::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.expire"');
                 _Activity::do('mengakses halaman pensiun');
+                _App::page('expires', $flag);
                 return view('admin.expire',compact('data'));
             }
         }

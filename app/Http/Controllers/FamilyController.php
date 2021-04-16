@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -35,6 +36,7 @@ class FamilyController extends Controller
             if ($show && _Authorize::manage(Civil::class)) {
                 _Activity::do('mengakses halaman keluarga');
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.family"');
+                _App::page('families', $flag);
                 return view('admin.family',compact('data'));
             }
         }

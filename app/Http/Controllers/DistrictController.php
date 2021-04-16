@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -37,6 +38,7 @@ class DistrictController extends Controller
             if ($show && _Authorize::manage(Civil::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.district"');
                 _Activity::do('mengakses halaman dusun');
+                _App::page('districts', $flag);
                 return view('admin.district',compact('data'));
             }
         }

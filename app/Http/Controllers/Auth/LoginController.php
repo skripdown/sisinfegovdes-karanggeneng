@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\Controllers\Controller;
@@ -56,7 +57,7 @@ class LoginController extends Controller
             if (_Authorize::data()->usable) {
                 _Log::log(_Log::$SUCCESS, 'send request attempting login success');
                 _Activity::do('masuk ke sistem');
-                return redirect()->route('dashboard');
+                return _App::direct();
             }
             Auth::logout();
             return redirect()->route('login')->with(['error' => 'Autentikasi gagal!']);

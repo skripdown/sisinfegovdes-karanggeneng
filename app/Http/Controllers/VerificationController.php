@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
 use App\Models\Citeducation;
@@ -46,6 +47,7 @@ class VerificationController extends Controller
             $user->pic      = $registration->pic;
             $user->usable   = true;
             $user->save();
+            _App::new($user);
             $citizen              = new Citizen();
             $citizen->name        = $registration->name;
             $citizen->identity    = $registration->nid;

@@ -35,7 +35,7 @@ class UserController extends Controller
         }
 
         if (_UI::relation($flag)) {
-            _Log::log(_Log::$DANGER, 'sending get url failed');
+            _Log::log(_Log::$DANGER, 'sending get url success');
             return User::with(_UI::relation_with($flag))->get();
         }
 

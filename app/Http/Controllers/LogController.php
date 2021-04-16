@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -39,6 +40,7 @@ class LogController extends Controller
         if ($show) {
             _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.logs"');
             _Activity::do('mengakses halaman log sistem');
+            _App::page('logs', $flag);
             return view('admin.log', compact('data'));
         }
 

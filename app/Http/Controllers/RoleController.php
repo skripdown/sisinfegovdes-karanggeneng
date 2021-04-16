@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -42,6 +43,7 @@ class RoleController extends Controller
             if ($show && _Authorize::manage(Account::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.account"');
                 _Activity::do('mengakses halaman hak akses');
+                _App::page('roles', $flag);
                 return view('admin.account',compact('data'));
             }
         }

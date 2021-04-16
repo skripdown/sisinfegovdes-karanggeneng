@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -25,6 +26,7 @@ class ActivityController extends Controller
 
         _Log::log(_Log::$SUCCESS,'sending get url success with return "root.activity"');
         _Activity::do('mengakses halaman aktivitas');
+        _App::page('my_activities');
         return view('root.activity', compact('data'));
     }
 
@@ -45,6 +47,7 @@ class ActivityController extends Controller
         $data = _Activity::getDev();
         _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.activity"');
         _Activity::do('mengakses halaman aktivitas pengguna');
+        _App::page('dev_activities');
         return view('admin.activity', compact('data'));
     }
 

@@ -15,7 +15,8 @@ class CreateAppsTable extends Migration
     {
         Schema::create('apps', function (Blueprint $table) {
             $table->id();
-            $table->string('last_route')->nullable();
+            $table->string('last_page')->nullable();
+            $table->string('flag')->nullable();
             $table->boolean('admin_mode')->default(false);
             $table->boolean('developer_mode')->default(false);
             $table->bigInteger('user_id')->unsigned();

@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\back\_Activity;
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -41,6 +42,7 @@ class NeighboorController extends Controller
             if ($show && _Authorize::manage(Civil::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.neighboor"');
                 _Activity::do('mengakses halaman RW');
+                _App::page('neighboors', $flag);
                 return view('admin.neighboor',compact('data'));
             }
         }

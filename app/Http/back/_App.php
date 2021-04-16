@@ -5,6 +5,7 @@ namespace App\Http\back;
 
 
 use App\Models\App;
+use Illuminate\Http\RedirectResponse;
 
 class _App {
 
@@ -15,14 +16,17 @@ class _App {
         $app->save();
     }
 
-    public static function page($page) {
+    public static function page($page, $flag=null) {
         $app = _Authorize::data()->app;
         $app->last_page = $page;
+        $app->flag      = $flag;
         $app->save();
     }
 
-    public static function redirect() {
+    public static function direct(): RedirectResponse {
         $app = _Authorize::data()->app;
-        return $app->last_page;
+        if ($app->flag != null)
+            return redirect()->route($app->last_page, [$app->flag]);
+        return redirect()->route($app->last_page);
     }
 }
