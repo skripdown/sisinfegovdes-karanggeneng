@@ -53,105 +53,107 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <h3 class="font-weight-medium">Profil Biodata</h3>
+                        <h3 class="font-weight-medium">Profil Biodata&nbsp;&nbsp;<button class="btn btn-outline-light btn-sm btn-min"><i class="ti-arrow-up"></i></button></h3>
                         <hr>
                     </div>
-                    <form id="form">
-                        <div class="form-group">
-                            <h6 class="h6 text-muted mt-4">Nama Lengkap</h6>
-                            <label for="ip-0" class="d-none"></label>
-                            <input id="ip-0" type="text" name="name" class="form-control" placeholder="nama lengkap" value="{{$data->name}}">
-                            <h6 class="h6 text-muted mt-4">Status Perkawinan</h6>
-                            <div>
-                                <div class="form-check form-check-inline mr-5">
-                                    <input class="form-check-input mr-4" type="radio" name="statusPerkawinan" id="ip-1-1" value="sudah" @if($data->citizen->marriage) checked @endif ><label class="form-check-label" for="ip-1-1">Menikah</label>
+                    <div class="card-content">
+                        <form id="form">
+                            <div class="form-group">
+                                <h6 class="h6 text-muted mt-4">Nama Lengkap</h6>
+                                <label for="ip-0" class="d-none"></label>
+                                <input id="ip-0" type="text" name="name" class="form-control" placeholder="nama lengkap" value="{{$data->name}}">
+                                <h6 class="h6 text-muted mt-4">Status Perkawinan</h6>
+                                <div>
+                                    <div class="form-check form-check-inline mr-5">
+                                        <input class="form-check-input mr-4" type="radio" name="statusPerkawinan" id="ip-1-1" value="sudah" @if($data->citizen->marriage) checked @endif ><label class="form-check-label" for="ip-1-1">Menikah</label>
+                                    </div>
+                                    <div class="form-check form-check-inline ml-5">
+                                        <input class="form-check-input mr-4" type="radio" name="statusPerkawinan" id="ip-1-2" value="belum" @if(!$data->citizen->marriage) checked @endif><label class="form-check-label" for="ip-1-2">Belum Menikah</label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline ml-5">
-                                    <input class="form-check-input mr-4" type="radio" name="statusPerkawinan" id="ip-1-2" value="belum" @if(!$data->citizen->marriage) checked @endif><label class="form-check-label" for="ip-1-2">Belum Menikah</label>
+                                <h6 class="h6 text-muted mt-4">Golongan Darah</h6>
+                                <label for="ip-2" class="d-none"></label>
+                                <select name="" id="ip-2" class="form-control">
+                                    <option value="a+" @if($data->citizen->blood == 'a+') selected @endif>a+</option>
+                                    <option value="a-" @if($data->citizen->blood == 'a-') selected @endif>a-</option>
+                                    <option value="b+" @if($data->citizen->blood == 'b+') selected @endif>b+</option>
+                                    <option value="b-" @if($data->citizen->blood == 'b-') selected @endif>b-</option>
+                                    <option value="ab+" @if($data->citizen->blood == 'ab+') selected @endif>ab+</option>
+                                    <option value="ab-" @if($data->citizen->blood == 'ab-') selected @endif>ab-</option>
+                                    <option value="o+" @if($data->citizen->blood == 'o+') selected @endif>o+</option>
+                                    <option value="o-" @if($data->citizen->blood == 'o-') selected @endif>o-</option>
+                                </select>
+                                <h6 class="h6 text-muted mt-4">Agama</h6>
+                                <label for="ip-3" class="d-none"></label>
+                                <select name="" id="ip-3" class="form-control">
+                                    @foreach($religions as $religion)
+                                        <option value="{{$religion->id}}" @if($data->citizen->citreligion->religion_id == $religion->id) selected @endif>{{$religion->name}}</option>
+                                    @endforeach
+                                </select>
+                                <h6 class="h6 text-muted mt-4">Pendidikan</h6>
+                                <label for="ip-4" class="d-none"></label>
+                                <select name="" id="ip-4" class="form-control">
+                                    @foreach($educations as $education)
+                                        <option value="{{$education->id}}" @if($data->citizen->citeducation->education_id == $education->id) selected @endif>{{$education->name}}</option>
+                                    @endforeach
+                                </select>
+                                <h6 class="h6 text-muted mt-4">Pekerjaan</h6>
+                                <label for="ip-5" class="d-none"></label>
+                                <select name="" id="ip-5" class="form-control" @if(\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief()) disabled @endif>
+                                    @foreach($occupations as $occupation)
+                                        <option value="{{$occupation->id}}" @if($data->citizen->citoccupation->occupation_id == $occupation->id) selected @endif>{{$occupation->name}}</option>
+                                    @endforeach
+                                </select>
+                                <h6 class="h6 text-muted mt-4">Dusun / RT / RW</h6>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="ip-6" class="d-none"></label>
+                                        <select name="" id="ip-6" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="ip-7" class="d-none"></label>
+                                        <select name="" id="ip-7" class="form-control">
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="ip-8" class="d-none"></label>
+                                        <select name="" id="ip-8" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                                <h6 class="h6 text-muted mt-4">Nomor Kartu Keluarga</h6>
+                                <label for="ip-9" class="d-none"></label>
+                                <input id="ip-9" type="text" name="" class="form-control mb-4" placeholder="nomor kartu keluarga" value="{{$data->citizen->family->number}}">
+                                <hr>
+                                <h6 class="h6 text-muted mt-4">Alamat E-mail</h6>
+                                <label for="ip-10" class="d-none"></label>
+                                <input id="ip-10" type="email" name="identity" class="form-control" placeholder="alamat email" value="{{$data->email}}">
+                                <h6 class="h6 text-muted mt-4">Nomor HP</h6>
+                                <label for="ip-11" class="d-none"></label>
+                                <input id="ip-11" type="text" name="identity" class="form-control" placeholder="nomor hp" value="{{$data->phone}}">
+                                <h6 class="card-subtitle mt-4">berkas Foto Profil dalam bentuk <code>.jpg</code> , <code>.jpeg</code> atau <code>.png</code></h6>
+                                <div class="custom-file mb-4">
+                                    <input type="file" name="pic" class="custom-file-input" id="ip-12">
+                                    <label class="custom-file-label text-muted" for="ip-12">foto profil</label>
+                                </div>
+                                <hr>
+                                <h6 class="h6 text-muted mt-4">Kata Sandi Baru</h6>
+                                <label id="pass-label" for="ip-13" class="d-none"></label>
+                                <input id="ip-13" type="password" name="identity" class="form-control" placeholder="kata sandi baru">
+                                <h6 class="h6 text-muted mt-4">Verifikasi Kata Sandi Baru</h6>
+                                <label for="ip-14" class="d-none"></label>
+                                <input id="ip-14" type="password" name="identity" class="form-control" placeholder="verifikasi kata sandi">
+                                <hr>
+                                <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sekarang untuk merubah data.</h6>
+                                <label id="pass-label" for="ip-15" class="d-none"></label>
+                                <input id="ip-15" type="password" name="identity" class="form-control" placeholder="kata sandi">
+                                <div class="form-group text-right mt-4 pt-4">
+                                    <button id="submit-form" class="btn btn-success" type="button">simpan</button>
                                 </div>
                             </div>
-                            <h6 class="h6 text-muted mt-4">Golongan Darah</h6>
-                            <label for="ip-2" class="d-none"></label>
-                            <select name="" id="ip-2" class="form-control">
-                                <option value="a+" @if($data->citizen->blood == 'a+') selected @endif>a+</option>
-                                <option value="a-" @if($data->citizen->blood == 'a-') selected @endif>a-</option>
-                                <option value="b+" @if($data->citizen->blood == 'b+') selected @endif>b+</option>
-                                <option value="b-" @if($data->citizen->blood == 'b-') selected @endif>b-</option>
-                                <option value="ab+" @if($data->citizen->blood == 'ab+') selected @endif>ab+</option>
-                                <option value="ab-" @if($data->citizen->blood == 'ab-') selected @endif>ab-</option>
-                                <option value="o+" @if($data->citizen->blood == 'o+') selected @endif>o+</option>
-                                <option value="o-" @if($data->citizen->blood == 'o-') selected @endif>o-</option>
-                            </select>
-                            <h6 class="h6 text-muted mt-4">Agama</h6>
-                            <label for="ip-3" class="d-none"></label>
-                            <select name="" id="ip-3" class="form-control">
-                                @foreach($religions as $religion)
-                                    <option value="{{$religion->id}}" @if($data->citizen->citreligion->religion_id == $religion->id) selected @endif>{{$religion->name}}</option>
-                                @endforeach
-                            </select>
-                            <h6 class="h6 text-muted mt-4">Pendidikan</h6>
-                            <label for="ip-4" class="d-none"></label>
-                            <select name="" id="ip-4" class="form-control">
-                                @foreach($educations as $education)
-                                    <option value="{{$education->id}}" @if($data->citizen->citeducation->education_id == $education->id) selected @endif>{{$education->name}}</option>
-                                @endforeach
-                            </select>
-                            <h6 class="h6 text-muted mt-4">Pekerjaan</h6>
-                            <label for="ip-5" class="d-none"></label>
-                            <select name="" id="ip-5" class="form-control" @if(\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief()) disabled @endif>
-                                @foreach($occupations as $occupation)
-                                    <option value="{{$occupation->id}}" @if($data->citizen->citoccupation->occupation_id == $occupation->id) selected @endif>{{$occupation->name}}</option>
-                                @endforeach
-                            </select>
-                            <h6 class="h6 text-muted mt-4">Dusun / RT / RW</h6>
-                            <div class="row">
-                                <div class="col-4">
-                                    <label for="ip-6" class="d-none"></label>
-                                    <select name="" id="ip-6" class="form-control">
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="ip-7" class="d-none"></label>
-                                    <select name="" id="ip-7" class="form-control">
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <label for="ip-8" class="d-none"></label>
-                                    <select name="" id="ip-8" class="form-control">
-                                    </select>
-                                </div>
-                            </div>
-                            <h6 class="h6 text-muted mt-4">Nomor Kartu Keluarga</h6>
-                            <label for="ip-9" class="d-none"></label>
-                            <input id="ip-9" type="text" name="" class="form-control mb-4" placeholder="nomor kartu keluarga" value="{{$data->citizen->family->number}}">
-                            <hr>
-                            <h6 class="h6 text-muted mt-4">Alamat E-mail</h6>
-                            <label for="ip-10" class="d-none"></label>
-                            <input id="ip-10" type="email" name="identity" class="form-control" placeholder="alamat email" value="{{$data->email}}">
-                            <h6 class="h6 text-muted mt-4">Nomor HP</h6>
-                            <label for="ip-11" class="d-none"></label>
-                            <input id="ip-11" type="text" name="identity" class="form-control" placeholder="nomor hp" value="{{$data->phone}}">
-                            <h6 class="card-subtitle mt-4">berkas Foto Profil dalam bentuk <code>.jpg</code> , <code>.jpeg</code> atau <code>.png</code></h6>
-                            <div class="custom-file mb-4">
-                                <input type="file" name="pic" class="custom-file-input" id="ip-12">
-                                <label class="custom-file-label text-muted" for="ip-12">foto profil</label>
-                            </div>
-                            <hr>
-                            <h6 class="h6 text-muted mt-4">Kata Sandi Baru</h6>
-                            <label id="pass-label" for="ip-13" class="d-none"></label>
-                            <input id="ip-13" type="password" name="identity" class="form-control" placeholder="kata sandi baru">
-                            <h6 class="h6 text-muted mt-4">Verifikasi Kata Sandi Baru</h6>
-                            <label for="ip-14" class="d-none"></label>
-                            <input id="ip-14" type="password" name="identity" class="form-control" placeholder="verifikasi kata sandi">
-                            <hr>
-                            <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sekarang untuk merubah data.</h6>
-                            <label id="pass-label" for="ip-15" class="d-none"></label>
-                            <input id="ip-15" type="password" name="identity" class="form-control" placeholder="kata sandi">
-                            <div class="form-group text-right mt-4 pt-4">
-                                <button id="submit-form" class="btn btn-success" type="button">simpan</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,68 +166,70 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            <h3 class="font-weight-medium">Kepegawaian</h3>
+                            <h3 class="font-weight-medium">Kepegawaian&nbsp;&nbsp;<button class="btn btn-outline-light btn-sm btn-min"><i class="ti-arrow-up"></i></button></h3>
                             <hr>
                         </div>
-                        <form action="">
-                            <h6 class="h6 text-muted mt-4">Mode Admin Kepegawaian</h6>
-                            <div>
-                                <div class="form-check form-check-inline mr-5">
-                                    <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-1" value="aktif" @if(\App\Http\back\_App::admin()) checked @endif ><label class="form-check-label" for="adm-mode-1">Aktif</label>
-                                </div>
-                                <div class="form-check form-check-inline ml-5">
-                                    <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-2" value="tidak" @if(!\App\Http\back\_App::admin()) checked @endif><label class="form-check-label" for="adm-mode-2">Tidak Aktif</label>
-                                </div>
-                            </div>
-                            @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
-                                <h6 class="h6 text-muted mt-4">Mode Developer</h6>
-                                <h6 class="h6 text-muted small"><code>Mode Developer masih dalam tahap pengembangan.</code></h6>
+                        <div class="btn-content">
+                            <form action="">
+                                <h6 class="h6 text-muted mt-4">Mode Admin Kepegawaian</h6>
                                 <div>
                                     <div class="form-check form-check-inline mr-5">
-                                        <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-1" value="aktif" @if(\App\Http\back\_App::developer()) checked @endif ><label class="form-check-label" for="dev-mode-1">Aktif</label>
+                                        <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-1" value="aktif" @if(\App\Http\back\_App::admin()) checked @endif ><label class="form-check-label" for="adm-mode-1">Aktif</label>
                                     </div>
                                     <div class="form-check form-check-inline ml-5">
-                                        <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-2" value="tidak" @if(!\App\Http\back\_App::developer()) checked @endif><label class="form-check-label" for="dev-mode-2">Tidak Aktif</label>
+                                        <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-2" value="tidak" @if(!\App\Http\back\_App::admin()) checked @endif><label class="form-check-label" for="adm-mode-2">Tidak Aktif</label>
                                     </div>
                                 </div>
-                            @endif
-                        </form>
-                        <form action="" id="form-officer">
-                            @if ($has_approval)
-                                <h6 class="h5 text-muted mt-4">Permintaan perubahan data sedang diproses oleh sistem...</h6>
-                            @else
-                                <hr>
-                                <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
-                                <label for="ip-nip" class="d-none"></label>
-                                <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}"{{$officer_disabled}}>
-                                <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
-                                <label for="ip-jenis" class="d-none"></label>
-                                <select name="" id="ip-jenis" class="form-control"{{$officer_disabled}}>
-                                    <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
-                                    <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
-                                </select>
-                                <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
-                                <label for="ip-pangkat" class="d-none"></label>
-                                <select name="" id="ip-pangkat" class="form-control"{{$officer_disabled}}>
-                                </select>
-                                <input type="hidden" name="id" id="ip-id" value="{{$data->officer->id}}">
-                                <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
-                                @if (!\App\Http\back\_Authorize::chief())
-                                    <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
-                                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                        <div class="btn-group mr-3" role="group" aria-label="group">
-                                            <button id="submit-mutasi-keluar" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Mutasi Keluar</button>
+                                @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
+                                    <h6 class="h6 text-muted mt-4">Mode Developer</h6>
+                                    <h6 class="h6 text-muted small"><code>Mode Developer masih dalam tahap pengembangan.</code></h6>
+                                    <div>
+                                        <div class="form-check form-check-inline mr-5">
+                                            <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-1" value="aktif" @if(\App\Http\back\_App::developer()) checked @endif ><label class="form-check-label" for="dev-mode-1">Aktif</label>
                                         </div>
-                                        <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                            <button id="submit-pensiun" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Pensiun</button>
+                                        <div class="form-check form-check-inline ml-5">
+                                            <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-2" value="tidak" @if(!\App\Http\back\_App::developer()) checked @endif><label class="form-check-label" for="dev-mode-2">Tidak Aktif</label>
                                         </div>
                                     </div>
                                 @endif
-                                <div class="form-group text-right mt-4 pt-4">
-                                    <button id="submit-form-officer" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
-                                </div>
-                            @endif
-                        </form>
+                            </form>
+                            <form action="" id="form-officer">
+                                @if ($has_approval)
+                                    <h6 class="h5 text-muted mt-4">Permintaan perubahan data sedang diproses oleh sistem...</h6>
+                                @else
+                                    <hr>
+                                    <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
+                                    <label for="ip-nip" class="d-none"></label>
+                                    <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}"{{$officer_disabled}}>
+                                    <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
+                                    <label for="ip-jenis" class="d-none"></label>
+                                    <select name="" id="ip-jenis" class="form-control"{{$officer_disabled}}>
+                                        <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
+                                        <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
+                                    </select>
+                                    <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
+                                    <label for="ip-pangkat" class="d-none"></label>
+                                    <select name="" id="ip-pangkat" class="form-control"{{$officer_disabled}}>
+                                    </select>
+                                    <input type="hidden" name="id" id="ip-id" value="{{$data->officer->id}}">
+                                    <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
+                                    @if (!\App\Http\back\_Authorize::chief())
+                                        <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                            <div class="btn-group mr-3" role="group" aria-label="group">
+                                                <button id="submit-mutasi-keluar" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Mutasi Keluar</button>
+                                            </div>
+                                            <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                                <button id="submit-pensiun" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Pensiun</button>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="form-group text-right mt-4 pt-4">
+                                        <button id="submit-form-officer" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
+                                    </div>
+                                @endif
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -239,30 +243,32 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-title">
-                            <h3 class="font-weight-medium">Kepala Desa</h3>
+                            <h3 class="font-weight-medium">Kepala Desa&nbsp;&nbsp;<button class="btn btn-outline-light btn-sm btn-min"><i class="ti-arrow-up"></i></button></h3>
                             <hr>
                         </div>
-                        <form action="" id="form-chief">
-                            @if ($has_approval)
-                                <h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>
-                            @else
-                                <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai Calon Kepada Desa</h6>
-                                <label for="ip-nip-calon" class="d-none"></label>
-                                <input id="ip-nip-calon" type="text" name="nip_calon" class="form-control" placeholder="nip calon" value=""{{$officer_disabled}}>
-                                <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sebagai verifikasi.</h6>
-                                <label for="ip-verifikasi-kepala" class="d-none"></label>
-                                <input id="ip-verifikasi-kepala" type="password" name="verifikasi" class="form-control" placeholder="kata sandi verifikasi"{{$officer_disabled}}>
-                                <div class="form-check mt-4 pt-4">
-                                    <input class="form-check-input" type="checkbox" value="" id="verifikasi-persetujuan-kepala-desa"{{$officer_disabled}}/>
-                                    <label class="form-check-label text-muted h6" for="verifikasi-persetujuan-kepala-desa">
-                                        Saya setuju untuk menggantikan jabatan saya sebagai kepala desa kepala pegawai dengan nomor induk <code id="verifikasi-nomor-induk"></code>
-                                    </label>
-                                </div>
-                                <div class="form-group text-right mt-4">
-                                    <button id="submit-form-kepala-desa" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
-                                </div>
-                            @endif
-                        </form>
+                        <div class="card-content">
+                            <form action="" id="form-chief">
+                                @if ($has_approval)
+                                    <h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>
+                                @else
+                                    <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai Calon Kepada Desa</h6>
+                                    <label for="ip-nip-calon" class="d-none"></label>
+                                    <input id="ip-nip-calon" type="text" name="nip_calon" class="form-control" placeholder="nip calon" value=""{{$officer_disabled}}>
+                                    <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sebagai verifikasi.</h6>
+                                    <label for="ip-verifikasi-kepala" class="d-none"></label>
+                                    <input id="ip-verifikasi-kepala" type="password" name="verifikasi" class="form-control" placeholder="kata sandi verifikasi"{{$officer_disabled}}>
+                                    <div class="form-check mt-4 pt-4">
+                                        <input class="form-check-input" type="checkbox" value="" id="verifikasi-persetujuan-kepala-desa"{{$officer_disabled}}/>
+                                        <label class="form-check-label text-muted h6" for="verifikasi-persetujuan-kepala-desa">
+                                            Saya setuju untuk menggantikan jabatan saya sebagai kepala desa kepala pegawai dengan nomor induk <code id="verifikasi-nomor-induk"></code>
+                                        </label>
+                                    </div>
+                                    <div class="form-group text-right mt-4">
+                                        <button id="submit-form-kepala-desa" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
+                                    </div>
+                                @endif
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -751,4 +757,24 @@
             @endif
         </script>
     @endif
+    <script>
+        const min_btns = document.getElementsByClassName('btn-min');
+        for (let i = 0; i < min_btns.length; i++) {
+            const btn  = min_btns[i];
+            const icon = btn.firstChild;
+            const tar  = btn.parentNode.parentNode.parentNode.children[1];
+            btn.addEventListener('click', function () {
+                if (icon.getAttribute('class') === 'ti-arrow-up') {
+                    icon.setAttribute('class', 'ti-arrow-down');
+                    tar.setAttribute('class', tar.getAttribute('class') + ' d-none');
+                } else {
+                    icon.setAttribute('class', 'ti-arrow-up');
+                    tar.setAttribute('class', tar.getAttribute('class').replace(' d-none', ''));
+                }
+            });
+            for (let i = 1; i < min_btns.length; i++) {
+                min_btns[i].click();
+            }
+        }
+    </script>
 @endsection
