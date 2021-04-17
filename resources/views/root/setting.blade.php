@@ -45,7 +45,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        <h3 class="font-weight-medium">Kependudukan</h3>
+                        <h3 class="font-weight-medium">Profil Biodata</h3>
                         <hr>
                     </div>
                     <form id="form">
@@ -90,7 +90,7 @@
                             </select>
                             <h6 class="h6 text-muted mt-4">Pekerjaan</h6>
                             <label for="ip-5" class="d-none"></label>
-                            <select name="" id="ip-5" class="form-control">
+                            <select name="" id="ip-5" class="form-control" @if(\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief()) disabled @endif>
                                 @foreach($occupations as $occupation)
                                     <option value="{{$occupation->id}}" @if($data->citizen->citoccupation->occupation_id == $occupation->id) selected @endif>{{$occupation->name}}</option>
                                 @endforeach
@@ -149,7 +149,7 @@
         </div>
         <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
     </div>
-    @if (\App\Http\back\_Authorize::admin())
+    @if (\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief())
         <div class="row">
             <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
             <div class="col-xl-5 col-md-8 col-sm-12">
@@ -169,7 +169,7 @@
                                     <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-2" value="tidak" @if(!\App\Http\back\_App::admin()) checked @endif><label class="form-check-label" for="adm-mode-2">Tidak Aktif</label>
                                 </div>
                             </div>
-                            @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class))
+                            @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
                                 <h6 class="h6 text-muted mt-4">Mode Developer</h6>
                                 <h6 class="h6 text-muted small"><code>Mode Developer masih dalam tahap pengembangan.</code></h6>
                                 <div>
@@ -181,6 +181,68 @@
                                     </div>
                                 </div>
                             @endif
+                            <hr>
+                            <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
+                            <label for="ip-nip" class="d-none"></label>
+                            <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}">
+                            <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
+                            <label for="ip-jenis" class="d-none"></label>
+                            <select name="" id="ip-jenis" class="form-control">
+                                <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
+                                <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
+                            </select>
+                            <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
+                            <label for="ip-pangkat" class="d-none"></label>
+                            <select name="" id="ip-pangkat" class="form-control">
+                            </select>
+                            <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
+                            @if (!\App\Http\back\_Authorize::chief())
+                                <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group mr-3" role="group" aria-label="group">
+                                        <button type="button" class="btn btn-secondary btn-sm">Mutasi Keluar</button>
+                                    </div>
+                                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                        <button type="button" class="btn btn-secondary btn-sm">Pensiun</button>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="form-group text-right mt-4 pt-4">
+                                <button id="submit-form-officer" class="btn btn-success" type="button">simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
+        </div>
+    @endif
+    @if (\App\Http\back\_Authorize::chief())
+        <div class="row">
+            <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
+            <div class="col-xl-5 col-md-8 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h3 class="font-weight-medium">Kepala Desa</h3>
+                            <hr>
+                        </div>
+                        <form action="">
+                            <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai Calon Kepada Desa</h6>
+                            <label for="ip-nip-calon" class="d-none"></label>
+                            <input id="ip-nip-calon" type="text" name="nip_calon" class="form-control" placeholder="nip calon" value="">
+                            <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sebagai verifikasi.</h6>
+                            <label for="ip-verifikasi-kepala" class="d-none"></label>
+                            <input id="ip-verifikasi-kepala" type="password" name="verifikasi" class="form-control" placeholder="kata sandi verifikasi">
+                            <div class="form-check mt-4 pt-4">
+                                <input class="form-check-input" type="checkbox" value="" id="verifikasi-persetujuan-kepala-desa"/>
+                                <label class="form-check-label text-muted h6" for="flexCheckDisabled">
+                                    Saya setuju untuk menggantikan jabatan saya sebagai kepala desa kepala pegawai dengan nomor induk <code id="verifikasi-nomor-induk"></code>
+                                </label>
+                            </div>
+                            <div class="form-group text-right mt-4">
+                                <button id="submit-form-kepala-desa" class="btn btn-success" type="button">simpan</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -198,6 +260,69 @@
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_district_input.js')}}"></script>
     <script>
         @include('root.token')
+        @if (\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief())
+            const uppercase  = function (text) {
+            const words = text.split(' ');
+            let result  = '';
+            for (let i = 0; i < words.length; i++) {
+                result += (words[i][0].toUpperCase() + words[i].substring(1));
+                if (i !== words.length - 1)
+                    result += ' ';
+            }
+
+            return result;
+        }
+            const _ASN       = {
+            asn     : undefined,
+            honorer : undefined,
+            init    : function () {
+                function makeOption(options) {
+                    const arr = [];
+                    for (let i = 0; i < options.length; i++) {
+                        const option = document.createElement('option');
+                        const value  = options[i];
+                        const text   = uppercase(options[i]);
+                        option.setAttribute('value', value);
+                        option.innerHTML = text;
+                        arr.push(option);
+                    }
+
+                    return arr;
+                }
+                function makeGroup(name, options) {
+                    const group = document.createElement('optgroup');
+                    group.setAttribute('label', uppercase(name));
+                    for (let i = 0; i < options.length; i++) {
+                        group.appendChild(options[i]);
+                    }
+
+                    return group;
+                }
+                _ASN.asn = [
+                    makeGroup('gol IV', makeOption(['pembina utama', 'pembina utama madya', 'pembina utama muda', 'pembina tingkat i', 'pembina'])),
+                    makeGroup('gol III', makeOption(['penata tingkat i', 'penata', 'penata muda tingkat i', 'penata muda'])),
+                    makeGroup('gol II', makeOption(['pengatur tingkat i', 'pengatur', 'pengatur muda tingkat i', 'pengatur muda'])),
+                    makeGroup('gol I', makeOption(['juru tingkat i', 'juru', 'juru muda tingkat i', 'juru muda'])),
+                ];
+                _ASN.honorer = makeOption(['tidak ada'])[0];
+            }
+        };
+            _ASN.init();
+            function asnRankInput(select, active=false) {
+            if (typeof select === 'string')
+                select = document.getElementById(select);
+            select.innerHTML = '';
+            if (active) {
+                const groups = _ASN.asn;
+                for (let i = 0; i < groups.length; i++) {
+                    select.appendChild(groups[i]);
+                }
+            }
+            else {
+                select.appendChild(_ASN.honorer);
+            }
+        }
+        @endif
         const district = _data.district;
         district.refresh(function () {
             _response.get('{{url('/districts'.\App\Http\back\_UI::$FLAG_HIDE.\App\Http\back\_UI::$FLAG_RELATION)}}(hamlets,hamlets.neighboors)',false);
@@ -307,7 +432,7 @@
         });
         _popup.init({element : 'popup-notification', align : 'center',});
     </script>
-    @if (\App\Http\back\_Authorize::admin())
+    @if (\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief())
         <script>
             function removeClass(element, toRemove) {
                 return element.getAttribute('class').replace(toRemove, '');
@@ -364,6 +489,21 @@
                     menu_dev.setAttribute('class', addClass(menu_dev, switch_dev));
                 });
             @endif
+        </script>
+        <script>
+            @if ($data->officer->status == 'asn')
+                asnRankInput(document.getElementById('ip-pangkat'), true);
+            @else
+                asnRankInput(document.getElementById('ip-pangkat'), false);
+            @endif
+            document.getElementById('ip-jenis').addEventListener('change', function () {
+                const selSource = document.getElementById('ip-jenis');
+                const selTar    = document.getElementById('ip-pangkat');
+                if (selSource.value === 'asn')
+                    asnRankInput(selTar, true);
+                else
+                    asnRankInput(selTar, false);
+            });
         </script>
     @endif
 @endsection
