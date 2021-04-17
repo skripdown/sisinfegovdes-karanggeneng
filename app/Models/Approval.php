@@ -11,6 +11,10 @@ class Approval extends Model
 {
     use HasFactory;
 
+    public static function hasApproval($officer_id):bool {
+        return Approval::all()->where('officer_id', $officer_id)->count() != 0;
+    }
+
     public static function boot()
     {
         parent::boot();
