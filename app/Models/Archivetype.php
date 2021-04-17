@@ -36,6 +36,16 @@ class Archivetype extends Model
         return $randomString;
     }
 
+    public static function makeCode($length = 6):string {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return env('ARCHIVE_PREFIX').$randomString;
+    }
+
     public function archives(): HasMany {
         return $this->hasMany(Archive::class);
     }
