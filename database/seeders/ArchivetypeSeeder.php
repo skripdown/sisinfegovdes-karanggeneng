@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SpellCheckingInspection */
+/** @noinspection PhpUndefinedFieldInspection */
 
 namespace Database\Seeders;
 
@@ -18,19 +20,21 @@ class ArchivetypeSeeder extends Seeder
     {
         _Log::system(_Log::$INFO, 'seeding archive type');
         $user = User::with(['officer'])->first();
+        $code = Archivetype::makeCode();
         $type = new Archivetype();
         $type->name  = 'kepegawaian';
-        $type->code  = 'AR01';
+        $type->code  = $code;
         $type->token = Archivetype::makeToken();
-        $type->folder_path = Archivetype::makeDir('AR01');
+        $type->folder_path = Archivetype::makeDir($code);
         $type->officer()->associate($user->officer);
         $type->save();
 
+        $code = Archivetype::makeCode();
         $type = new Archivetype();
         $type->name  = 'kependudukan';
-        $type->code  = 'AR02';
+        $type->code  = $code;
         $type->token = Archivetype::makeToken();
-        $type->folder_path = Archivetype::makeDir('AR02');
+        $type->folder_path = Archivetype::makeDir($code);
         $type->officer()->associate($user->officer);
         $type->save();
         _Log::system(_Log::$SUCCESS, 'seeding archive type success');
