@@ -12,17 +12,17 @@ class Archivetype extends Model
 {
     use HasFactory;
 
-    private static $DIR = 'storage/archive/';
+    private static $DIR = 'archive/';
 
     public static function makeDir($code):string {
         $dir = 'archive-' . $code;
-        Storage::disk('public')->makeDirectory($dir);
+        Storage::disk('public')->makeDirectory(self::$DIR . $dir);
         return $dir;
     }
 
     public static function remDir($id):bool {
         $dir = 'archive-' . $id;
-        Storage::disk('public')->deleteDirectory($dir);
+        Storage::disk('public')->deleteDirectory(self::$DIR . $dir);
         return true;
     }
 
