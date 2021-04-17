@@ -2,6 +2,7 @@
 /** @noinspection SpellCheckingInspection */
 /** @noinspection PhpUndefinedClassInspection */
 
+use App\Http\back\_App;
 use App\Http\back\_Authorize;
 use App\Http\back\_Log;
 use App\Http\back\_UI;
@@ -213,6 +214,7 @@ Route::get('/settings',function (){
         $conf->occupation = Occupation::all();
 
         _Log::log(_Log::$SUCCESS,'sending get url user settings success');
+        _App::page('settings');
         return view('root.setting',compact('conf'));
     }
     _Log::log(_Log::$WARNING, 'sending canceled on login required');
@@ -230,6 +232,11 @@ Route::get('/logs', function (){return redirect()->route('logs', [_UI::$FLAG_UI]
 Route::post('logClear', 'LogController@clear');
 
 Route::get('/users{flag}','UserController@users')->name('users');
+
+Route::post('admin_on', 'AppController@adminOn');
+Route::post('admin_off', 'AppController@adminOff');
+Route::post('dev_on', 'AppController@devOn');
+Route::post('dev_off', 'AppController@devOff');
 
 Route::post('ckeditor/upload','EditorController@image')->name('ckeditor.image-upload');
 

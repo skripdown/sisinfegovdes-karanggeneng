@@ -44,6 +44,10 @@
         <div class="col-xl-5 col-md-8 col-sm-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="card-title">
+                        <h3 class="font-weight-medium">Kependudukan</h3>
+                        <hr>
+                    </div>
                     <form id="form">
                         <div class="form-group">
                             <h6 class="h6 text-muted mt-4">Nama Lengkap</h6>
@@ -145,6 +149,45 @@
         </div>
         <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
     </div>
+    @if (\App\Http\back\_Authorize::admin())
+        <div class="row">
+            <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
+            <div class="col-xl-5 col-md-8 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h3 class="font-weight-medium">Kepegawaian</h3>
+                            <hr>
+                        </div>
+                        <form action="">
+                            <h6 class="h6 text-muted mt-4">Mode Admin Kepegawaian</h6>
+                            <div>
+                                <div class="form-check form-check-inline mr-5">
+                                    <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-1" value="aktif" @if(\App\Http\back\_App::admin()) checked @endif ><label class="form-check-label" for="adm-mode-1">Aktif</label>
+                                </div>
+                                <div class="form-check form-check-inline ml-5">
+                                    <input class="form-check-input mr-4" type="radio" name="adm_mode" id="adm-mode-2" value="tidak" @if(!\App\Http\back\_App::admin()) checked @endif><label class="form-check-label" for="adm-mode-2">Tidak Aktif</label>
+                                </div>
+                            </div>
+                            @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class))
+                                <h6 class="h6 text-muted mt-4">Mode Developer</h6>
+                                <h6 class="h6 text-muted small"><code>Mode Developer masih dalam tahap pengembangan.</code></h6>
+                                <div>
+                                    <div class="form-check form-check-inline mr-5">
+                                        <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-1" value="aktif" @if(\App\Http\back\_App::developer()) checked @endif ><label class="form-check-label" for="dev-mode-1">Aktif</label>
+                                    </div>
+                                    <div class="form-check form-check-inline ml-5">
+                                        <input class="form-check-input mr-4" type="radio" name="dev_mode" id="dev-mode-2" value="tidak" @if(!\App\Http\back\_App::developer()) checked @endif><label class="form-check-label" for="dev-mode-2">Tidak Aktif</label>
+                                    </div>
+                                </div>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-2 d-sm-none d-lg-inline-block"></div>
+        </div>
+    @endif
 @endsection
 
 @section('popup')
@@ -264,4 +307,63 @@
         });
         _popup.init({element : 'popup-notification', align : 'center',});
     </script>
+    @if (\App\Http\back\_Authorize::admin())
+        <script>
+            function removeClass(element, toRemove) {
+                return element.getAttribute('class').replace(toRemove, '');
+            }
+            function addClass(element, toAdd) {
+                return element.getAttribute('class') + toAdd;
+            }
+
+            const switch_admin = ' admin-off', switch_dev = ' developer-off';
+
+            const menu_admin  = document.getElementsByClassName('admin');
+            const btn_admin_1 = document.getElementById('adm-mode-1');
+            const btn_admin_0 = document.getElementById('adm-mode-2');
+            @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
+                const menu_dev  = document.getElementsByClassName('developer')[0];
+                const btn_dev_1 = document.getElementById('dev-mode-1');
+                const btn_dev_0 = document.getElementById('dev-mode-2');
+                @if (!\App\Http\back\_App::admin())
+                    btn_dev_1.disabled = true;
+                    btn_dev_0.disabled = true;
+                @endif
+            @endif
+            btn_admin_1.addEventListener('click', function () {
+                _response.post({async:true, url:'{{url('admin_on')}}', data:{i:0}, file:new FormData()});
+                for (let i = 0; i < menu_admin.length; i++) {
+                    const menu = menu_admin[i];
+                    menu.setAttribute('class', removeClass(menu, switch_admin));
+                }
+                @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
+                    btn_dev_1.disabled = false;
+                    btn_dev_0.disabled = false;
+                @endif
+            });
+            btn_admin_0.addEventListener('click', function () {
+                _response.post({async:true, url:'{{url('admin_off')}}', data:{i:0}, file:new FormData()});
+                _response.post({async:true, url:'{{url('dev_off')}}', data:{i:0}, file:new FormData()});
+                for (let i = 0; i < menu_admin.length; i++) {
+                    const menu = menu_admin[i];
+                    menu.setAttribute('class', addClass(menu, switch_admin));
+                }
+                @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
+                    btn_dev_1.disabled = true;
+                    btn_dev_0.disabled = true;
+                    btn_dev_0.checked  = true;
+                @endif
+            });
+            @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
+                btn_dev_1.addEventListener('click', function () {
+                    _response.post({async:true, url:'{{url('dev_on')}}', data:{i:0}, file:new FormData()});
+                    menu_dev.setAttribute('class', removeClass(menu_dev, switch_dev));
+                });
+                btn_dev_0.addEventListener('click', function () {
+                    _response.post({async:true, url:'{{url('dev_off')}}', data:{i:0}, file:new FormData()});
+                    menu_dev.setAttribute('class', addClass(menu_dev, switch_dev));
+                });
+            @endif
+        </script>
+    @endif
 @endsection

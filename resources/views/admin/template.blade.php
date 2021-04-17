@@ -1,3 +1,12 @@
+@php
+    $admin_class = ' admin';
+    $developer_class = ' developer';
+    if (!\App\Http\back\_App::admin())
+        $admin_class .= ' admin-off';
+    if (!\App\Http\back\_App::developer())
+        $developer_class .= ' developer-off';
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{env('APP_LANG')}}" dir="{{env('APP_DIR')}}">
 <head>
@@ -15,6 +24,7 @@
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'style.min.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'preloader.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'added.css')}}">
+    <link rel="stylesheet" href="{{asset(env('CSS_PATH').'admin-app.css')}}">
     <!--suppress CssUnusedSymbol -->
     <style>#info-user-bg{background-image:url("{{asset('asset/bg-blank.png')}}");position:relative;height:8rem;margin-bottom:-7rem;}</style>
     @include('root.preloader_style')
@@ -97,7 +107,7 @@
                         </a>
                     </li>
                     @if (\App\Http\back\_Authorize::chief())
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link" href="{{url('/approvals'.\App\Http\back\_UI::$FLAG_UI.\App\Http\back\_UI::$FLAG_RELATION.'(modifies,officer,officer.user)')}}" aria-expanded="false">
                                 <i data-feather="check-circle" class="feather-icon"></i>
                                 <span class="hide-menu">Persetujuan</span>
@@ -105,21 +115,21 @@
                         </li>
                     @endif
                     @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Publication::class))
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link" href="{{url('/albums'.\App\Http\back\_UI::$FLAG_UI)}}" aria-expanded="false">
                                 <i data-feather="image" class="feather-icon"></i>
                                 <span class="hide-menu">Album Galeri</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{url('/blogs'.\App\Http\back\_UI::$FLAG_UI)}}" aria-expanded="false">
+                            <a class="sidebar-link{{$admin_class}}" href="{{url('/blogs'.\App\Http\back\_UI::$FLAG_UI)}}" aria-expanded="false">
                                 <i data-feather="file-text" class="feather-icon"></i>
                                 <span class="hide-menu">Agenda & Berita</span>
                             </a>
                         </li>
                     @endif
                     @if(\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Account::class) || \App\Http\back\_Authorize::manage(\App\Http\back\authorize\Developer::class) || \App\Http\back\_Authorize::chief())
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="eye" class="feather-icon"></i>
                                 <span class="hide-menu">Pusat Kontrol</span>
@@ -143,7 +153,7 @@
                                             <span class="hide-menu">Log Info Sistem</span>
                                         </a>
                                     </li>
-                                    <li class="sidebar-item">
+                                    <li class="sidebar-item{{$developer_class}}">
                                         <a class="sidebar-link" href="{{url('/')}}" aria-expanded="false">
                                             <span class="hide-menu">Developer</span>
                                         </a>
@@ -153,7 +163,7 @@
                         </li>
                     @endif
                     @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Civil::class))
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="users" class="feather-icon"></i>
                                 <span class="hide-menu">Kependudukan</span>
@@ -193,7 +203,7 @@
                         </li>
                     @endif
                     @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Employee::class))
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="trello" class="feather-icon"></i>
                                 <span class="hide-menu">Kepegawaian</span>
@@ -223,7 +233,7 @@
                         </li>
                     @endif
                     @if (\App\Http\back\_Authorize::manage(\App\Http\back\authorize\Archive::class))
-                        <li class="sidebar-item">
+                        <li class="sidebar-item{{$admin_class}}">
                             <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                                 <i data-feather="mail" class="feather-icon"></i>
                                 <span class="hide-menu">Surat Daring</span>
