@@ -15,6 +15,14 @@
         $educations  = $conf->education;
         $occupations = $conf->occupation;
     }
+    $officer_disabled = '';
+    $has_approval     = false;
+    if (\App\Http\back\_Authorize::admin() || \App\Http\back\_Authorize::chief()) {
+        if (\App\Models\Approval::hasApproval(\App\Http\back\_Authorize::data()->officer->id)) {
+            $officer_disabled = ' disabled';
+            $has_approval     = true;
+        }
+    }
 @endphp
 
 @section('title')
@@ -181,35 +189,42 @@
                                     </div>
                                 </div>
                             @endif
-                            <hr>
-                            <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
-                            <label for="ip-nip" class="d-none"></label>
-                            <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}">
-                            <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
-                            <label for="ip-jenis" class="d-none"></label>
-                            <select name="" id="ip-jenis" class="form-control">
-                                <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
-                                <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
-                            </select>
-                            <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
-                            <label for="ip-pangkat" class="d-none"></label>
-                            <select name="" id="ip-pangkat" class="form-control">
-                            </select>
-                            <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
-                            @if (!\App\Http\back\_Authorize::chief())
-                                <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
-                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-3" role="group" aria-label="group">
-                                        <button type="button" class="btn btn-secondary btn-sm">Mutasi Keluar</button>
+                        </form>
+                        <form action="" id="form-officer">
+                            @if ($has_approval)
+                                <h6 class="h5 text-muted mt-4">Permintaan perubahan data sedang diproses oleh sistem...</h6>
+                            @else
+                                <hr>
+                                <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
+                                <label for="ip-nip" class="d-none"></label>
+                                <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}"{{$officer_disabled}}>
+                                <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
+                                <label for="ip-jenis" class="d-none"></label>
+                                <select name="" id="ip-jenis" class="form-control"{{$officer_disabled}}>
+                                    <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
+                                    <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
+                                </select>
+                                <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
+                                <label for="ip-pangkat" class="d-none"></label>
+                                <select name="" id="ip-pangkat" class="form-control"{{$officer_disabled}}>
+                                </select>
+                                <input type="hidden" name="id" id="ip-id" value="{{$data->officer->id}}">
+                                <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
+                                @if (!\App\Http\back\_Authorize::chief())
+                                    <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
+                                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                        <div class="btn-group mr-3" role="group" aria-label="group">
+                                            <button id="submit-mutasi-keluar" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Mutasi Keluar</button>
+                                        </div>
+                                        <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                            <button id="submit-pensiun" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Pensiun</button>
+                                        </div>
                                     </div>
-                                    <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                        <button type="button" class="btn btn-secondary btn-sm">Pensiun</button>
-                                    </div>
+                                @endif
+                                <div class="form-group text-right mt-4 pt-4">
+                                    <button id="submit-form-officer" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
                                 </div>
                             @endif
-                            <div class="form-group text-right mt-4 pt-4">
-                                <button id="submit-form-officer" class="btn btn-success" type="button">simpan</button>
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -227,22 +242,26 @@
                             <h3 class="font-weight-medium">Kepala Desa</h3>
                             <hr>
                         </div>
-                        <form action="">
-                            <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai Calon Kepada Desa</h6>
-                            <label for="ip-nip-calon" class="d-none"></label>
-                            <input id="ip-nip-calon" type="text" name="nip_calon" class="form-control" placeholder="nip calon" value="">
-                            <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sebagai verifikasi.</h6>
-                            <label for="ip-verifikasi-kepala" class="d-none"></label>
-                            <input id="ip-verifikasi-kepala" type="password" name="verifikasi" class="form-control" placeholder="kata sandi verifikasi">
-                            <div class="form-check mt-4 pt-4">
-                                <input class="form-check-input" type="checkbox" value="" id="verifikasi-persetujuan-kepala-desa"/>
-                                <label class="form-check-label text-muted h6" for="flexCheckDisabled">
-                                    Saya setuju untuk menggantikan jabatan saya sebagai kepala desa kepala pegawai dengan nomor induk <code id="verifikasi-nomor-induk"></code>
-                                </label>
-                            </div>
-                            <div class="form-group text-right mt-4">
-                                <button id="submit-form-kepala-desa" class="btn btn-success" type="button">simpan</button>
-                            </div>
+                        <form action="" id="form-chief">
+                            @if ($has_approval)
+                                <h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>
+                            @else
+                                <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai Calon Kepada Desa</h6>
+                                <label for="ip-nip-calon" class="d-none"></label>
+                                <input id="ip-nip-calon" type="text" name="nip_calon" class="form-control" placeholder="nip calon" value=""{{$officer_disabled}}>
+                                <h6 class="card-subtitle mt-4">Masukkan <code>kata sandi</code> sebagai verifikasi.</h6>
+                                <label for="ip-verifikasi-kepala" class="d-none"></label>
+                                <input id="ip-verifikasi-kepala" type="password" name="verifikasi" class="form-control" placeholder="kata sandi verifikasi"{{$officer_disabled}}>
+                                <div class="form-check mt-4 pt-4">
+                                    <input class="form-check-input" type="checkbox" value="" id="verifikasi-persetujuan-kepala-desa"{{$officer_disabled}}/>
+                                    <label class="form-check-label text-muted h6" for="verifikasi-persetujuan-kepala-desa">
+                                        Saya setuju untuk menggantikan jabatan saya sebagai kepala desa kepala pegawai dengan nomor induk <code id="verifikasi-nomor-induk"></code>
+                                    </label>
+                                </div>
+                                <div class="form-group text-right mt-4">
+                                    <button id="submit-form-kepala-desa" class="btn btn-success" type="button"{{$officer_disabled}}>simpan</button>
+                                </div>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -491,19 +510,245 @@
             @endif
         </script>
         <script>
-            @if ($data->officer->status == 'asn')
-                asnRankInput(document.getElementById('ip-pangkat'), true);
-            @else
-                asnRankInput(document.getElementById('ip-pangkat'), false);
+            @if (!$has_approval)
+                @if ($data->officer->status == 'asn')
+                    asnRankInput(document.getElementById('ip-pangkat'), true);
+                @else
+                    asnRankInput(document.getElementById('ip-pangkat'), false);
+                @endif
+                document.getElementById('ip-jenis').addEventListener('change', function () {
+                    const selSource = document.getElementById('ip-jenis');
+                    const selTar    = document.getElementById('ip-pangkat');
+                    if (selSource.value === 'asn')
+                        asnRankInput(selTar, true);
+                    else
+                        asnRankInput(selTar, false);
+                });
+                collections.set({
+                    name   : 'edit-officer',
+                    submit : 'submit-form-officer',
+                    fields : [
+                        {el: 'ip-id', name: 'id', hasVal:true},
+                        {el: 'ip-nip', name: 'identity', hasVal:true, validator:'number'},
+                        {el: 'ip-jenis', name: 'status',},
+                        {el: 'ip-pangkat', name: 'rank',},
+                        {el: 'ip-gaji', name: 'salary', hasVal:true, validator:'number'},
+                    ],
+                });
+                document.getElementById('submit-form-officer').addEventListener('click', function () {
+                    _transition.in();
+                    const data = collections.collect('edit-officer');
+                    _response.post({async:false, url:'{{url('officerEdit')}}', data:data[0], file:data[1]});
+                    const res = _response.response;
+                    let output;
+                    if (res._status) {
+                        if (res.status === 'success') {
+                            document.getElementById('form-officer').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                            @if (\App\Http\back\_Authorize::chief())
+                                document.getElementById('form-chief').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                            @endif
+                            output = {
+                                id : 'popup-notification',
+                                header : '<strong>notifikasi sukses</strong>',
+                                content : '<p>' + res.message + '.</p>',
+                                footer : _btn_group.make([
+                                    _btn.render({
+                                        operate : 'tutup',
+                                        type : 'success',
+                                        title : 'tutup',
+                                        content : 'tutup',
+                                        fun : function () {
+                                            _popup.close('popup-notification');
+                                        }
+                                    }),
+                                ]),
+                            };
+                        } else {
+                            output = {
+                                id : 'popup-notification',
+                                header : '<strong>notifikasi gagal</strong>',
+                                content : '<p>' + res.message + '.</p>',
+                                footer : _btn_group.make([
+                                    _btn.render({
+                                        operate : 'tutup',
+                                        type : 'secondary',
+                                        title : 'tutup',
+                                        content : 'tutup',
+                                        fun : function () {
+                                            _popup.close('popup-notification');
+                                        }
+                                    }),
+                                ]),
+                            };
+                        }
+                    } else {
+                        output = {
+                            id : 'popup-notification',
+                            header : '<strong>notifikasi gagal</strong>',
+                            content : '<p>Terjadi kesalahan dalam proses submit data.</p>',
+                            footer : _btn_group.make([
+                                _btn.render({
+                                    operate : 'tutup',
+                                    type : 'secondary',
+                                    title : 'tutup',
+                                    content : 'tutup',
+                                    fun : function () {
+                                        _popup.close('popup-notification');
+                                    }
+                                }),
+                            ]),
+                        };
+                    }
+                    _transition.out();
+                    _popup.content(output);
+                });
+                @if (\App\Http\back\_Authorize::chief())
+                    collections.set({
+                        name   : 'replace-chief',
+                        submit : 'submit-form-kepala-desa',
+                        fields : [
+                            {el: 'ip-id', name: 'id', hasVal:true},
+                            {el: 'ip-nip', name: 'identity', hasVal:true, validator:'number'},
+                            {el: 'ip-jenis', name: 'status',},
+                            {el: 'ip-pangkat', name: 'rank',},
+                            {el: 'ip-gaji', name: 'salary', hasVal:true, validator:'number'},
+                        ],
+                    });
+                @else
+                    document.getElementById('submit-mutasi-keluar').addEventListener('click', function () {
+                        _transition.in();
+                        _response.post({async:false, url:'{{url('mutate')}}', data:{id:{{\App\Http\back\_Authorize::data()->officer->id}}, type:'out'}, file:new FormData()});
+                        const res = _response.response;
+                        let output;
+                        if (res._status) {
+                        if (res.status === 'success') {
+                            document.getElementById('form-officer').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                            @if (\App\Http\back\_Authorize::chief())
+                            document.getElementById('form-chief').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                            @endif
+                                output = {
+                                id : 'popup-notification',
+                                header : '<strong>notifikasi sukses</strong>',
+                                content : '<p>' + res.message + '.</p>',
+                                footer : _btn_group.make([
+                                    _btn.render({
+                                        operate : 'tutup',
+                                        type : 'success',
+                                        title : 'tutup',
+                                        content : 'tutup',
+                                        fun : function () {
+                                            _popup.close('popup-notification');
+                                        }
+                                    }),
+                                ]),
+                            };
+                        } else {
+                            output = {
+                                id : 'popup-notification',
+                                header : '<strong>notifikasi gagal</strong>',
+                                content : '<p>' + res.message + '.</p>',
+                                footer : _btn_group.make([
+                                    _btn.render({
+                                        operate : 'tutup',
+                                        type : 'secondary',
+                                        title : 'tutup',
+                                        content : 'tutup',
+                                        fun : function () {
+                                            _popup.close('popup-notification');
+                                        }
+                                    }),
+                                ]),
+                            };
+                        }
+                    } else {
+                        output = {
+                            id : 'popup-notification',
+                            header : '<strong>notifikasi gagal</strong>',
+                            content : '<p>Terjadi kesalahan dalam proses submit data.</p>',
+                            footer : _btn_group.make([
+                                _btn.render({
+                                    operate : 'tutup',
+                                    type : 'secondary',
+                                    title : 'tutup',
+                                    content : 'tutup',
+                                    fun : function () {
+                                        _popup.close('popup-notification');
+                                    }
+                                }),
+                            ]),
+                        };
+                    }
+                        _transition.out();
+                        _popup.content(output);
+                    });
+                    document.getElementById('submit-pensiun').addEventListener('click', function () {
+                        _transition.in();
+                        _response.post({async:false, url:'{{url('mutate')}}', data:{id:{{\App\Http\back\_Authorize::data()->officer->id}}, type:'exp'}, file:new FormData()});
+                        const res = _response.response;
+                        let output;
+                        if (res._status) {
+                    if (res.status === 'success') {
+                        document.getElementById('form-officer').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                        @if (\App\Http\back\_Authorize::chief())
+                        document.getElementById('form-chief').innerHTML = '<h6 class="h5 text-muted mt-4">Permintaan sedang diproses oleh sistem...</h6>';
+                        @endif
+                            output = {
+                            id : 'popup-notification',
+                            header : '<strong>notifikasi sukses</strong>',
+                            content : '<p>' + res.message + '.</p>',
+                            footer : _btn_group.make([
+                                _btn.render({
+                                    operate : 'tutup',
+                                    type : 'success',
+                                    title : 'tutup',
+                                    content : 'tutup',
+                                    fun : function () {
+                                        _popup.close('popup-notification');
+                                    }
+                                }),
+                            ]),
+                        };
+                    } else {
+                        output = {
+                            id : 'popup-notification',
+                            header : '<strong>notifikasi gagal</strong>',
+                            content : '<p>' + res.message + '.</p>',
+                            footer : _btn_group.make([
+                                _btn.render({
+                                    operate : 'tutup',
+                                    type : 'secondary',
+                                    title : 'tutup',
+                                    content : 'tutup',
+                                    fun : function () {
+                                        _popup.close('popup-notification');
+                                    }
+                                }),
+                            ]),
+                        };
+                    }
+                } else {
+                    output = {
+                        id : 'popup-notification',
+                        header : '<strong>notifikasi gagal</strong>',
+                        content : '<p>Terjadi kesalahan dalam proses submit data.</p>',
+                        footer : _btn_group.make([
+                            _btn.render({
+                                operate : 'tutup',
+                                type : 'secondary',
+                                title : 'tutup',
+                                content : 'tutup',
+                                fun : function () {
+                                    _popup.close('popup-notification');
+                                }
+                            }),
+                        ]),
+                    };
+                }
+                        _transition.out();
+                        _popup.content(output);
+                    });
+                @endif
             @endif
-            document.getElementById('ip-jenis').addEventListener('change', function () {
-                const selSource = document.getElementById('ip-jenis');
-                const selTar    = document.getElementById('ip-pangkat');
-                if (selSource.value === 'asn')
-                    asnRankInput(selTar, true);
-                else
-                    asnRankInput(selTar, false);
-            });
         </script>
     @endif
 @endsection
