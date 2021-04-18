@@ -1,4 +1,5 @@
 <?php
+/** @noinspection SpellCheckingInspection */
 
 namespace App\Models;
 
@@ -20,7 +21,7 @@ class Archivetype extends Model
         return $dir;
     }
 
-    public static function remDir($id):bool {
+    private static function remDir($id):bool {
         $dir = 'archive-' . $id;
         Storage::disk('public')->deleteDirectory(self::$DIR . $dir);
         return true;
@@ -44,6 +45,14 @@ class Archivetype extends Model
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return env('ARCHIVE_PREFIX').$randomString;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function ($archivetype) {
+            self::remDir($archivetype->code);
+        });
     }
 
     public function archives(): HasMany {

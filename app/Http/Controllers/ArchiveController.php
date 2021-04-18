@@ -99,7 +99,7 @@ class ArchiveController extends Controller
                 $new = Archivetype::with(['officer','officer.user','archives','archives.archivefiles','archives.officer','archives.officer.user'])->firstWhere('id', $obj->id);
                 $status  = ['status'=>'success','message'=>'Berhasil merubah tipe arsip', 'archivetype'=>$new];
                 _Log::log(_Log::$SUCCESS,'sending request edit archivetype success');
-                _Activity::do('menambahkan tipe arsip ' . $name);
+                _Activity::do('merubah tipe arsip ' . $name);
             } else {
                 $status = ['status'=>'error','message'=>'Arsip '.$name.' tidak tersedia'];
                 _Log::log(_Log::$DANGER,'sending request edit archivetype failed');
@@ -113,7 +113,27 @@ class ArchiveController extends Controller
     }
 
     public function deleteType(Request $request):JsonResponse {
+        _Log::log(_Log::$INFO,'sending request delete archivetype');
+        $id   = $request->id;
+        if (_Authorize::manage(Archive::class)) {
+            if (Archivetype::all()->where('id', $id)->count() != 0) {
+                $obj = Archivetype::all()->firstWhere('id', $id);
+                $name = $obj->name;
+                $obj->delete();
 
+                $status  = ['status'=>'success','message'=>'Berhasil menghapus tipe arsip '.$name];
+                _Log::log(_Log::$SUCCESS,'sending request delete archivetype success');
+                _Activity::do('menghapus tipe arsip ' . $name);
+            } else {
+                $status = ['status'=>'error','message'=>'Arsip tidak tersedia'];
+                _Log::log(_Log::$DANGER,'sending request delete archivetype failed');
+            }
+        } else {
+            $status = ['status'=>'error','message'=>'Kesalahan otorisasi akun pegawai'];
+            _Log::log(_Log::$DANGER,'sending request delete archivetype failed');
+        }
+
+        return response()->json(array_merge($request->all(), $status));
     }
 
     public function clearType(Request $request):JsonResponse {
