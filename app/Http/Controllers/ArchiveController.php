@@ -1,6 +1,7 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php
+/** @noinspection PhpPossiblePolymorphicInvocationInspection */
+/** @noinspection PhpUndefinedMethodInspection */
 /** @noinspection PhpUndefinedFieldInspection */
-
 /** @noinspection SpellCheckingInspection */
 
 namespace App\Http\Controllers;
@@ -82,7 +83,33 @@ class ArchiveController extends Controller
     }
 
     public function editType(Request $request):JsonResponse {
+        _Log::log(_Log::$INFO,'sending request edit archivetype');
+        $id   = $request->id;
+        $name = $request->name;
+        if (_Authorize::manage(Archive::class)) {
+            if (Archivetype::all()->where('id', $id)->count() != 0) {
+                $obj       = Archivetype::with(['officer'])->firstWhere('id', $id);
+                $obj->name = $name;
+                if ($obj->officer->id != _Authorize::data()->officer->id) {
+                    $obj->officer()->detach($obj->officer->id);
+                    $obj->officer()->associate(_Authorize::data()->officer);
+                }
+                $obj->save();
 
+                $new = Archivetype::with(['officer','officer.user','archives','archives.archivefiles','archives.officer','archives.officer.user'])->firstWhere('id', $obj->id);
+                $status  = ['status'=>'success','message'=>'Berhasil merubah tipe arsip', 'archivetype'=>$new];
+                _Log::log(_Log::$SUCCESS,'sending request edit archivetype success');
+                _Activity::do('menambahkan tipe arsip ' . $name);
+            } else {
+                $status = ['status'=>'error','message'=>'Arsip '.$name.' tidak tersedia'];
+                _Log::log(_Log::$DANGER,'sending request edit archivetype failed');
+            }
+        } else {
+            $status = ['status'=>'error','message'=>'Kesalahan otorisasi akun pegawai'];
+            _Log::log(_Log::$DANGER,'sending request edit archivetype failed');
+        }
+
+        return response()->json(array_merge($request->all(), $status));
     }
 
     public function deleteType(Request $request):JsonResponse {

@@ -566,12 +566,22 @@
                 let td_size   = tr.children[2];
                 let td_change = tr.children[3];
                 let td_button = tr.children[4];
+                const key     = 'files-' + archivetype.id;
+                td_name.addEventListener('click', function (e) {
+                    window.focus_tar = e.target;
+                    window.focus_key = key;
+                    document.getElementById('form-edit-ip-0').value = archivetype.id + '';
+                    document.getElementById('form-edit-ip-1').value = archivetype.name;
+                    _card.content('files-archive', _files[key]);
+                    _card.show('edit-archive');
+                });
                 td_name.innerHTML   = '<span class="font-weight-medium">' + archivetype.name + '</span>';
                 td_size.innerHTML   = '<span class="font-weight-medium">' + archivetype.archives.length + ' <small class="text-muted">arsip</small></span>';
                 td_change.innerHTML = '<span class="font-weight-medium">' + _date.convert_created_at(archivetype.updated_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '&nbsp;&nbsp;&nbsp;<small class="text-muted">oleh</small> ' + itsMe(archivetype.officer) + '</span>';
                 td_button.innerHTML = '';
                 td_button.appendChild(buttons(archivetype, key));
                 makeFiles(archivetype);
+                console.log(typeof _files[key]);
                 _card.focus('folder-archive');
                 _card.hide('edit-archive');
                 _card.content('files-archive', _files[key]);
