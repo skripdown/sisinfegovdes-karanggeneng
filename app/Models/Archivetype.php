@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedFunctionInspection */
 /** @noinspection SpellCheckingInspection */
 
 namespace App\Models;
@@ -45,6 +46,14 @@ class Archivetype extends Model
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return env('ARCHIVE_PREFIX').$randomString;
+    }
+
+    public static function upload($code, $token, $file):string {
+        $path     = 'public/' . self::$DIR . 'archive-' . $code;
+        $filename = $token . '.' . $file->getClientOriginalExtension();
+        $file->storeAs($path, $filename);
+
+        return $path . '/' . $filename;
     }
 
     public static function boot()

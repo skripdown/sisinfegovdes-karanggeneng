@@ -26,7 +26,7 @@
         @include('root.token')
         const _folder = _data.archive;
         _folder.refresh(function () {
-            _response.get('{{url('/archives'.\App\Http\back\_UI::$FLAG_HIDE.\App\Http\back\_UI::$FLAG_RELATION.'(archives,archives.archivefile,officer,officer.user)')}}',false);
+            _response.get('{{url('/archives'.\App\Http\back\_UI::$FLAG_HIDE.\App\Http\back\_UI::$FLAG_RELATION.'(archives,archives.archivefile,officer,officer.user,archives.officer,archives.officer.user)')}}',false);
             return _response.response;
         });
         const _files = {};
@@ -122,13 +122,13 @@
                 if (file.archivefile.enable_public)
                     buttons.push(_btn.render({
                         size : 'sm',
-                        operate : 'ubah',
+                        operate : 'unduh',
                         type : 'success',
-                        title : 'mengubah hak akses',
-                        content : '<i class="ti-pencil font-weight-medium"></i>',
+                        title : 'mengunduh berkas',
+                        content : '<i class="ti-download font-weight-medium"></i>',
                         fun : function () {
                             _transition.in();
-                            window.open('{{url('/archive/')}}'+file.token + folder.token, '_blank').focus();
+                            window.open('{{url('/archive')}}' + '/' + file.token, '_blank').focus();
                             _transition.out();
                         }
                     }));
@@ -278,7 +278,7 @@
                         content : '<span><i class="ti-download font-weight-medium"></i></span>',
                         fun : function () {
                             _transition.in();
-                            window.open('{{url('/type/')}}' + folder.token, '_blank').focus();
+                            window.open('{{url('/type')}}' + '/' + folder.token, '_blank').focus();
                             _transition.out();
                         }
                     }),
@@ -298,10 +298,10 @@
                             if (res._status) {
                                 if (res.status === 'success') {
                                     const td_amount   = tr.childNodes[2];
-                                    const td_date     = tr.childNodes[2];
+                                    const td_date     = tr.childNodes[3];
                                     const td_button   = tr.childNodes[4];
                                     const archivetype = res.archivetype;
-                                    td_amount.innerHTML = '<span class="font-weight-medium">' + folder.archives.length + ' <small class="text-muted">arsip</small></span>';
+                                    td_amount.innerHTML = '<span class="font-weight-medium">' + archivetype.archives.length + ' <small class="text-muted">arsip</small></span>';
                                     td_date.innerHTML   = '<span class="font-weight-medium">' + _date.convert_created_at(archivetype.updated_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '&nbsp;&nbsp;&nbsp;<small class="text-muted">oleh</small> ' + itsMe(archivetype.officer) + '</span>';
                                     td_button.innerHTML = '';
                                     makeFiles(archivetype);

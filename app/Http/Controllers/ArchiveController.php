@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpParamsInspection */
 /** @noinspection PhpPossiblePolymorphicInvocationInspection */
 /** @noinspection PhpUndefinedMethodInspection */
 /** @noinspection PhpUndefinedFieldInspection */
@@ -13,8 +14,11 @@ use App\Http\back\_Log;
 use App\Http\back\_UI;
 use App\Http\back\authorize\Archive;
 use App\Models\Archivetype;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Zip;
 
 class ArchiveController extends Controller
 {
@@ -37,7 +41,7 @@ class ArchiveController extends Controller
         }
 
         if (_Authorize::admin()) {
-            if ($show && _Authorize::manage(\App\Http\back\authorize\Archive::class)) {
+            if ($show && _Authorize::manage(Archive::class)) {
                 _Log::log(_Log::$SUCCESS,'sending get url success with return "admin.archive"');
                 _Activity::do('mengakses halaman permohonan arsip');
                 _App::page('archives', $flag);
@@ -137,19 +141,110 @@ class ArchiveController extends Controller
     }
 
     public function clearType(Request $request):JsonResponse {
+        _Log::log(_Log::$INFO,'sending request clear archivetype');
+        $id = $request->id;
+        if (_Authorize::manage(Archive::class)) {
+            if (Archivetype::all()->where('id', $id)->count() != 0) {
+                $archives = \App\Models\Archive::all()->where('archivetype_id', $id);
+                try {
+                    foreach ($archives as $archive) {
+                        $archive->delete();
+                    }
+                } catch (Exception $e) {}
+                $type     = Archivetype::with(['archives','archives.archivefile','officer','officer.user','archives.officer','archives.officer.user'])->firstWhere('id', $id);
 
+                $status  = ['status'=>'success','message'=>'Berhasil membersihkan tipe arsip '.$type->name,'archivetype'=>$type];
+                _Log::log(_Log::$SUCCESS,'sending request clear archivetype success');
+                _Activity::do('membersihkan tipe arsip ' . $type->name);
+            } else {
+                $status = ['status'=>'error','message'=>'Arsip tidak tersedia'];
+                _Log::log(_Log::$WARNING,'sending request clear archivetype failed');
+            }
+        } else {
+            $status = ['status'=>'error','message'=>'Kesalahan otorisasi akun pegawai'];
+            _Log::log(_Log::$DANGER,'sending request clear archivetype failed');
+        }
+
+        return response()->json(array_merge($request->all(), $status));
     }
 
     public function downloadType($token) {
-
+        _Log::log(_Log::$INFO,'sending request download archives folder');
+        if (Archivetype::all()->where('token', $token)->count() != 0 &&_Authorize::manage(Archive::class)) {
+            $artype   = Archivetype::with(['archives','archives.archivefile','archives.user'])->where('token', $token)->first();
+            $zip_name = $artype->name . date("_Y-m-d") . '.zip';
+            $archives = $artype->archives()->get();
+            $iter     = 1;
+            $result   = [];
+            foreach ($archives as $archive) {
+                if ($archive->archivefile->enable_public) {
+                    $name = '' . $iter . '_' . $archive->name . '_' . $archive->user->name . '.' . $archive->extension;
+                    $result[$archive->path] = $name;
+                    $iter++;
+                }
+            }
+            _Log::log(_Log::$SUCCESS,'sending request download archives folder success');
+            _Activity::do('mengunduh tipe arsip ' . $zip_name);
+            return Zip::create($zip_name, $result);
+        } else {
+            _Log::log(_Log::$DANGER,'sending request download archives folder failed');
+            return view('system.404');
+        }
     }
 
     public function deleteArchive(Request $request):JsonResponse {
+        _Log::log(_Log::$INFO,'sending request delete archive');
+        $id = $request->id;
+        if (\App\Models\Archive::all()->where('id', $id)->count() != 0) {
+            $arv = \App\Models\Archive::with('user')->firstWhere('id', $id);
+            if (_Authorize::manage(Archive::class) || _Authorize::data()->id == $arv->user->id) {
+                $name = $arv->name;
+                try {
+                    $arv->delete();
+                } catch (Exception $e) {}
+                $status  = ['status'=>'success','message'=>'Berhasil menghapus arsip '.$name];
+                _Log::log(_Log::$SUCCESS,'sending request delete archive success');
+                _Activity::do('menghapus arsip ' . $name);
+            } else {
+                $status = ['status'=>'error','message'=>'Kesalahan otorisasi akun pengguna'];
+                _Log::log(_Log::$DANGER,'sending request delete archive failed');
+            }
+        } else {
+            $status = ['status'=>'error','message'=>'Arsip tidak tersedia'];
+            _Log::log(_Log::$WARNING,'sending request delete archive failed');
+        }
 
+        return response()->json(array_merge($request->all(), $status));
     }
 
     public function downloadArchive($token) {
-
+        _Log::log(_Log::$INFO,'sending request download archive');
+        if (\App\Models\Archive::all()->where('token', $token)->count() != 0) {
+            $archive = \App\Models\Archive::with(['archivefile','user'])->firstWhere('token', $token);
+            $header  = \App\Models\Archive::header($archive->extension);
+            $name    = $archive->name . '_' . $archive->user->name . '.' . $archive->extension;
+            $path    = public_path(preg_replace("/^public/m", 'storage', $archive->path));
+            if ($archive->archivefile->enable_public) {
+                _Log::log(_Log::$SUCCESS,'sending request download archive uccess');
+                _Activity::do('mengunduh arsip ' . $name);
+                return response()->download($path, $name, $header);
+            } elseif (!$archive->archivefile->enable_public && _Authorize::login()) {
+                if ($archive->user->id == _Authorize::data()->id) {
+                    _Log::log(_Log::$SUCCESS,'sending request download archive success');
+                    _Activity::do('mengunduh arsip ' . $name);
+                    return response()->download($path, $name, $header);
+                } else {
+                    _Log::log(_Log::$DANGER,'sending request download archive failed');
+                    return view('system.404');
+                }
+            } else {
+                _Log::log(_Log::$DANGER,'sending request download archive failed');
+                return view('system.404');
+            }
+        } else {
+            _Log::log(_Log::$DANGER,'sending request download archive failed');
+            return view('system.404');
+        }
     }
 
 }
