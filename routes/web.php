@@ -158,6 +158,9 @@ Route::post('approvalVerify', 'ApprovalController@verify');
 
 Route::get('/requestarchives{flag}','RequestArchiveController@requests')->name('request_archives');
 Route::get('/requestarchives',function (){return redirect()->route('request_archives', [_UI::$FLAG_UI]);});
+Route::post('reqarchiveMake', 'RequestArchiveController@makeRequest');
+Route::post('reqarchiveUpload', 'RequestArchiveController@upload');
+Route::post('reqarchiveDelete', 'RequestArchiveController@delete');
 
 Route::get('/archives{flag}','ArchiveController@archives')->name('archives');
 Route::get('/archives',function (){return redirect()->route('archives', [_UI::$FLAG_UI]);});
@@ -250,12 +253,10 @@ Route::get('/test', function (){
 //    $cit = $str::with($fun)->select(['identity as identitas pengguna', 'gender', 'user_id']);
 //    $cit = $cit->$where('gender', 'perempuan');
 //    return $cit->$first();
+//    $syntax = 'data Penduduk pilih(NIK, telepon)';
+//    //$syntax = 'data Penduduk';
+//    $model  = \App\Http\back\metasystem\System::process($syntax);
+//    return $model;
 
-
-
-
-    $syntax = 'data Penduduk pilih(NIK, telepon)';
-    //$syntax = 'data Penduduk';
-    $model  = \App\Http\back\metasystem\System::process($syntax);
-    return $model;
+    return \Illuminate\Support\Facades\Storage::get('public/archive/archive-AR-GPS91O/44fxPGItRzkqgnag3zNFwiBzrNoCq1.docx');
 });
