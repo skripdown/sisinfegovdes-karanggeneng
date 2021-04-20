@@ -20,7 +20,7 @@ class CreateArchivesTable extends Migration
             $table->bigInteger('archivetype_id')->unsigned();
             $table->bigInteger('officer_id')->unsigned();
             $table->string('token')->unique();
-            $table->string('filename');
+            $table->string('path');
             $table->string('extension');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('archivetype_id')->references('id')->on('archivetypes')->onDelete('cascade');

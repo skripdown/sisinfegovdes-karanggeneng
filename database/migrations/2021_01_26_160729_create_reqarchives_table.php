@@ -18,6 +18,9 @@ class CreateReqarchivesTable extends Migration
             $table->string('name');
             $table->string('token')->unique();
             $table->string('type');
+            $table->string('code');
+            $table->boolean('enable_public')->default(false);
+            $table->bigInteger('archivetype');
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
