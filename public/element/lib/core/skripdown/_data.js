@@ -145,6 +145,17 @@ window._data = {
             _data.__retrieve(_data.archive);
         },
     },
+    archive_type : {
+        data : {},
+        _len: 0,
+        _first : undefined,
+        _refresh : undefined,
+        refresh : function (fun=undefined) {
+            if (fun !== undefined)
+                _data.archive_type._refresh = fun;
+            _data.__retrieve(_data.archive_type);
+        },
+    },
     request : {
         data : {},
         _len: 0,
