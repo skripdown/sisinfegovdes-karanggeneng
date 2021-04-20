@@ -36,6 +36,12 @@ class _Image {
         '#cc6654','#db7b47','#766063'
     ];
 
+    private static $allowed_doc = ['doc','docx','pdf'];
+
+    public static function allowedDoc($file): bool {
+        return in_array($file->extension(), self::$allowed_doc);
+    }
+
     public static function setIdCardPic($file, $identity, $plan): string {
         $filename = 'tr'.time().$identity.$plan.'.'.$file->getClientOriginalExtension();
         $filepath = self::$path['citizen_card'].$filename;
