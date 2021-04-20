@@ -40,14 +40,17 @@
                         </p>
                         <form class="row">
                             <div class="col-12 col-sm pr-sm-0">
+                                <label for="search" class="d-none"></label>
                                 <input type="text" name="search" id="search" placeholder="Akses Token Surat" class="form-control">
                             </div>
                             <div class="col-12 col-sm-auto pl-sm-0">
-                                <input type="button" name="commit" value="Buka" class="btn btn-success btn-block">
+                                <input type="button" name="commit" value="Buka" class="btn btn-success btn-block" id="open" disabled>
                             </div>
-                            <div class="col-12 col-sm-auto pl-sm-0">
-                                <input type="button" name="commit" value="Baru" class="btn btn-secondary btn-block">
-                            </div>
+                            @if(\App\Http\back\_Authorize::login())
+                                <div class="col-12 col-sm-auto pl-sm-0">
+                                    <input type="button" name="commit" value="Baru" class="btn btn-secondary btn-block" id="new">
+                                </div>
+                            @endif
                         </form>
                     </div>
                     <div class="col-md-3"></div>
@@ -62,7 +65,26 @@
 @endsection
 
 @section('script-head')
+    <script src="{{asset(env('LIB_PATH').'core/skripdown/_enc.js')}}"></script>
+    <script>
+        @include('root.token')
+    </script>
 @endsection
 
 @section('script-body')
+    <script>
+        const _open   = document.getElementById('open');
+        const _search = document.getElementById('search');
+        _search.addEventListener('keyup', function () {
+            _open.disabled = _search.value === '';
+        });
+        _open.addEventListener('click', function () {
+            window.open('{{url('/archive')}}' + '/' + _search.value, '_blank').focus();
+        });
+        @if (\App\Http\back\_Authorize::login())
+            document.getElementById('new').addEventListener('click', function () {
+
+            });
+        @endif
+    </script>
 @endsection
