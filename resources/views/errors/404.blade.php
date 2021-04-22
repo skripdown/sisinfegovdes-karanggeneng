@@ -1,0 +1,1 @@
+@include('system.404')
