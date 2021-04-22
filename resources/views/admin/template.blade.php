@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset(env('LIB_PATH').'extra/jvector/jquery-jvectormap-2.0.2.css')}}">
     <link rel="stylesheet" href="{{asset(env('LIB_PATH').'extra/prism/prism.css')}}">
     <link rel="stylesheet" href="{{asset(env('LIB_PATH').'extra/datatables.net-bs4/css/dataTables.bootstrap4.css')}}">
+    <link rel="stylesheet" href="{{asset(env('LIB_PATH').'core/skripdown/directory.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'style.min.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'preloader.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'added.css')}}">
@@ -37,6 +38,8 @@
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_enc.js')}}"></script>
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_data.js')}}"></script>
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_formdata.js')}}"></script>
+    <script src="{{asset(env('LIB_PATH').'core/skripdown/_properties.js')}}"></script>
+    <script src="{{asset(env('LIB_PATH').'core/skripdown/_dir.js')}}"></script>
     <script src="{{asset(env('JS_SUB').'form-control.js')}}"></script>
     @yield('script-head')
 </head>
