@@ -1,0 +1,36 @@
+.folder-block {
+    position: relative;
+}
+.folder-hover {
+    z-index: 2;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: background-color 325ms;
+}
+.folder-hover:hover {
+    background-color: #5DADE2;
+    transition: background-color 325ms;
+}
+.folder-hover:active {
+    background-color: #2874A6;
+    transition: background-color 325ms;
+}
+.folder-title {
+    position: relative;
+    z-index: 3;
+    font-size: 10pt;
+    text-align: center;
+    font-weight: 500;
+}
+.folder-selected {
+    z-index: 2;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: #2874A6;
+}
