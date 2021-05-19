@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'preloader.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'added.css')}}">
     <link rel="stylesheet" href="{{asset(env('CSS_PATH').'admin-app.css')}}">
+    <link rel="stylesheet" href="{{asset(env('LIB_PATH').'core/FFolders-master/css/ffolders.min.css')}}">
+    <link rel="stylesheet" href="{{asset(env('LIB_PATH').'core/FileIcon/icon.css')}}">
     <!--suppress CssUnusedSymbol -->
     <style>#info-user-bg{background-image:url("{{asset('asset/bg-blank.png')}}");position:relative;height:8rem;margin-bottom:-7rem;}</style>
     @include('root.preloader_style')
@@ -40,6 +42,7 @@
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_formdata.js')}}"></script>
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_properties.js')}}"></script>
     <script src="{{asset(env('LIB_PATH').'core/skripdown/_dir.js')}}"></script>
+    <script src="{{asset(env('LIB_PATH').'core/skripdown/_profileList.js')}}"></script>
     <script src="{{asset(env('JS_SUB').'form-control.js')}}"></script>
     @yield('script-head')
 </head>

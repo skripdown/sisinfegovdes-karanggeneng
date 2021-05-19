@@ -18,6 +18,7 @@
 @endsection
 
 @section('popup')
+    <div id="property-container"></div>
     <div id="popup-notification"></div>
 @endsection
 
@@ -33,11 +34,14 @@
         const _empty = {};
         window.focus_key = undefined;
         window.focus_tar = undefined;
+        window.filePropery = undefined;
     </script>
 @endsection
 
 @section('script-body')
     <script>
+        _properties.init('property-container');
+        _dir.init();
         function makeTypeInput() {
             const row    = document.createElement('div');
             row.setAttribute('class', 'row mb-4');
@@ -47,11 +51,6 @@
             return el;
         }
         function makeFiles(folder) {
-            function access_maker(file) {
-                if (file.enable_public)
-                    return '<span class="text-success">publik</span>';
-                return '<span class="text-secondary">privasi</span>';
-            }
             function makeButton(file) {
                 const buttons = [_delete.render(function (e){
                     _transition.in();
@@ -145,23 +144,49 @@
                     element  : key + '-table',
                     template : 'custom',
                     column   : [
-                        {content : 'Nama'},
-                        {content : 'Token'},
-                        {content : 'Jenis File'},
-                        {content : 'Akses'},
+                        {content : 'File'},
                         {content : 'Dibuat Pada'},
                         {content : 'Aksi'},
                     ],
                 });
                 for (let i = 0; i < archives.length; i++) {
-                    const archive = archives[i];
+                    const archive  = archives[i];
+                    let name       = archive.name;
+                    let tokenAcc   = '&nbsp;&nbsp;' + archive.token;
+                    let funClick;
+                    if (archive.archivefile.enable_public) {
+                        tokenAcc = '<i class="ti-world font-weight-bolder text-success"></i><a href="{{url('/archive')}}/' + archive.token + '" class="text-success">' + tokenAcc + '</a>';
+                        funClick = function () {
+                            window.open('{{url('/archive')}}' + '/' + archive.token, '_blank').focus();
+                        }
+                    }
+                    else {
+                        tokenAcc = '<i class="ti-lock font-weight-bolder text-secondary"></i>' + tokenAcc;
+                        funClick = function () {
+                            _popup.content({
+                                id : 'popup-notification',
+                                header : '<strong>informasi</strong>',
+                                content : '<p>berkas arsip bersifat pribadi sehingga tidak dapat diakses kecuali oleh pemilik itu sendiri.</p>',
+                                footer : _btn_group.make([
+                                    _btn.render({
+                                        operate : 'tutup',
+                                        type : 'secondary',
+                                        title : 'tutup',
+                                        content : 'tutup',
+                                        fun : function () {
+                                            _popup.close('popup-notification');
+                                        }
+                                    }),
+                                ]),
+                            });
+                        }
+                    }
+                    const fileIcon = _file.make(archive.extension, 'sm', false, funClick);
+                    const title    = _profileList.make(fileIcon, name, tokenAcc);
                     _tables.insert({
                         element : key + '-table',
                         column  : [
-                            {content : '<span class="font-weight-medium">' + archive.name + '</span>'},
-                            {content : '<span class="font-weight-medium">' + archive.token + '</span>'},
-                            {content : '<span class="font-weight-medium">' + archive.extension + '</span>'},
-                            {content : '<span class="font-weight-medium">' + access_maker(archive.archivefile) + '</span>'},
+                            {content : title},
                             {content : '<span class="font-weight-medium">' + _date.convert_created_at(archive.created_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '&nbsp;&nbsp;&nbsp;<small class="text-muted">oleh</small> ' + itsMe(archive.officer) + '</span>'},
                             {content : makeButton(archive)},
                         ],
@@ -719,6 +744,25 @@
             _popup.content(output);
             _transition.out();
         });
+        window.fileProperty = _properties.render({
+            id : 'file_property',
+            element : '#archive-detail',
+            groups : [
+                {
+                    type : 'none',
+                    menus : [],
+                },
+                {
+                    type : 'single',
+                    menus : [
+                        {content:'<i class="ti-trash font-weight-bold"></i>&nbsp;&nbsp;delete', fun:function () {console.log('delete called')}},
+                        {content:'<i class="ti-download font-weight-bold"></i>&nbsp;&nbsp;download', fun:function () {console.log('download called')}},
+                        {content:'<i class="ti-pencil font-weight-bold"></i>&nbsp;&nbsp;edit', fun:function () {console.log('edit called')}},
+                    ]
+                }
+            ]
+        });
+        fileProperty.switch('none');
         _card.hide('edit-archive');
         _popup.init({element : 'popup-notification', align : 'center',});
         _transition.out();

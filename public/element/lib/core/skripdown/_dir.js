@@ -8,7 +8,7 @@ window._dir = {
            }
         });
     },
-    create : function (name='Folder', click=function () {console.log('clicked');}, dblclick_=function () {console.log('double clicked');}, mouseenter_=function () {console.log('mouse enter');}, mouseleave_=function () {console.log('mouse out');}, contextmenu_=function () {console.log('context menu');}) {
+    create : function (name='Folder', click=function () {console.log('clicked');}, contextmenu_=function () {console.log('context menu');}, dblclick_=function () {console.log('double clicked');}, mouseenter_=function () {console.log('mouse enter');}, mouseleave_=function () {console.log('mouse out');}) {
         function makeid(length) {
             let result             = [];
             const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -95,17 +95,20 @@ window._dir = {
 };
 
 window._file = {
-    make : function (extension, size='sm', click_=function () {console.log('click');}, dblclick_=function () {console.log('double click');}, mouseenter_=function () {console.log('mouse enter');}, mouseleave_=function () {console.log('mouse out');}, contextmenu_=function () {console.log('context menu');}) {
+    make : function (extension, size='sm',margin=false, click_=function () {console.log('click');}, contextmenu_=function () {console.log('context menu');}, dblclick_=function () {console.log('double click');}, mouseenter_=function () {console.log('mouse enter');}, mouseleave_=function () {console.log('mouse out');}) {
         if (size==='xs'||size==='sm'||size==='md'||size==='lg'||size==='xl')
             size = 'fi-size-' + size;
         else
             size = 'fi-size-sm';
         const ctr  = document.createElement('div');
         const icon = document.createElement('div');
-        ctr.setAttribute('class', 'd-inline-block ml-2 mr-2 mt-2 mb-2 folder-block');
+        if (margin)
+            ctr.setAttribute('class', 'd-inline-block ml-2 mr-2 mt-2 mb-2 folder-block');
+        else
+            ctr.setAttribute('class', 'd-inline-block folder-block');
         icon.setAttribute('class', 'fi fi-' + extension + ' ' + size + ' fi-round-md');
         icon.innerHTML = '<div class="fi-content">' + extension + '</div>';
-        icon.addEventListener('click', function () {click();});
+        icon.addEventListener('click', function () {click_();});
         icon.addEventListener('dblclick', function () {dblclick_();});
         icon.addEventListener('mouseleave', function () {mouseleave_();});
         icon.addEventListener('mouseenter', function () {mouseenter_();});
