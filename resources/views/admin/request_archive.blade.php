@@ -57,7 +57,6 @@
                         column : [
                             {content : 'Profil Pemohon'},
                             {content : 'Permohonan'},
-                            {content : 'Jenis Permohonan'},
                             {content : 'Tanggal'},
                             {content : 'Aksi'},
                         ]
@@ -116,7 +115,6 @@
                             }
                         },
                         {content : '<span class="font-weight-medium">' + request.name + '</span>'},
-                        {content : '<span class="font-weight-medium">' + request.type + '</span> <small class="text-muted">(' + request.code + ')</small>'},
                         {content : '<span class="font-weight-medium">' + _date.convert_created_at(request.created_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '</span>'},
                         {
                             content : _btn_group.make([
