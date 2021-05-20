@@ -76,6 +76,9 @@ window._properties = {
 
             return property;
         }
+        property['close']          = function () {
+            $(dd).removeClass('show').hide();
+        }
         _properties.properties[id] = property;
 
         return property;
