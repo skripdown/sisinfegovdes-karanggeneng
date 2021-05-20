@@ -384,10 +384,7 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
                             {content : 'Pendidikan'},
-                            {content : 'Pangkat Jabatan'},
-                            {content : 'Gol./Ruang'},
                             {content : 'Gaji'},
                             {content : 'Lama Kerja'},
                             {content : 'Aksi'},
@@ -520,7 +517,7 @@
                                 while (tar.nodeName !== 'TD') {
                                     tar = tar.parentNode;
                                 }
-                                window.focused = tar.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling;
+                                window.focused = tar.nextSibling.nextSibling.nextSibling.nextSibling;
                                 _card.show('officer-form');
                             }
                             else {
@@ -536,10 +533,7 @@
                             }
                         }
                     },
-                    {content: officerStatus(officer)},
                     {content: citizen.citeducation.education.name},
-                    {content: officer.rank},
-                    {content: '<span class="text-uppercase">'+officer.set+'<span> <small class="text-muted">/</small> '+officer.room},
                     {content: '<small class="text-muted font-weight-medium">Rp.</small> '+officerSalary(officer)},
                     {content: _date.timestamp_old(officer.created_at)},
                     {content: officerApproval(officer)},
@@ -549,5 +543,12 @@
         }
         _card.hide('officer-form');
         _popup.init({element : 'popup-notification', align : 'center',});
+    </script>
+    <script>
+        //revision addition
+        document.getElementById('form-edit-ip-4').setAttribute('class',document.getElementById('form-edit-ip-4').getAttribute('class') + ' d-none');
+        document.getElementById('form-edit-ip-4').previousElementSibling.previousElementSibling.setAttribute('class',document.getElementById('form-edit-ip-4').previousElementSibling.previousElementSibling.getAttribute('class') + ' d-none');
+        document.getElementById('form-edit-ip-5').setAttribute('class',document.getElementById('form-edit-ip-5').getAttribute('class') + ' d-none');
+        document.getElementById('form-edit-ip-5').previousElementSibling.previousElementSibling.setAttribute('class',document.getElementById('form-edit-ip-5').previousElementSibling.previousElementSibling.getAttribute('class') + ' d-none');
     </script>
 @endsection

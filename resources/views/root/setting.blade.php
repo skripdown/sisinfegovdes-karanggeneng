@@ -201,15 +201,15 @@
                                     <h6 class="h6 text-muted mt-4">Nomor Induk Pegawai</h6>
                                     <label for="ip-nip" class="d-none"></label>
                                     <input id="ip-nip" type="text" name="nip" class="form-control" placeholder="nip" value="{{$data->officer->identity}}"{{$officer_disabled}}>
-                                    <h6 class="h6 text-muted mt-4">Jenis Pegawai</h6>
+                                    <h6 class="h6 text-muted mt-4 d-none">Jenis Pegawai</h6>
                                     <label for="ip-jenis" class="d-none"></label>
-                                    <select name="" id="ip-jenis" class="form-control"{{$officer_disabled}}>
+                                    <select name="" id="ip-jenis" class="form-control d-none"{{$officer_disabled}}>
                                         <option value="asn" @if($data->officer->status == 'asn') selected @endif>ASN</option>
                                         <option value="honor" @if($data->officer->status == 'honor') selected @endif>Honorer</option>
                                     </select>
-                                    <h6 class="h6 text-muted mt-4">Pangkat Jabatan</h6>
+                                    <h6 class="h6 text-muted mt-4 d-none">Pangkat Jabatan</h6>
                                     <label for="ip-pangkat" class="d-none"></label>
-                                    <select name="" id="ip-pangkat" class="form-control"{{$officer_disabled}}>
+                                    <select name="" id="ip-pangkat" class="form-control d-none"{{$officer_disabled}}>
                                     </select>
                                     <input type="hidden" name="id" id="ip-id" value="{{$data->officer->id}}">
                                     <input type="hidden" name="gaji" id="ip-gaji" value="{{$data->officer->salary}}">
@@ -217,7 +217,7 @@
                                         <h6 class="h6 text-muted mt-4">Pengubahan Status Kepegawaian</h6>
                                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group mr-3" role="group" aria-label="group">
-                                                <button id="submit-mutasi-keluar" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Mutasi Keluar</button>
+                                                <button id="submit-mutasi-keluar" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Keluar</button>
                                             </div>
                                             <div class="btn-group mr-2" role="group" aria-label="Second group">
                                                 <button id="submit-pensiun" type="button" class="btn btn-secondary btn-sm"{{$officer_disabled}}>Pensiun</button>

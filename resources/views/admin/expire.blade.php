@@ -88,9 +88,6 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
-                            {content : 'Pangkat/Jabatan'},
-                            {content : 'Golongan'},
                             {content : 'Masa Kerja'},
                             {content : 'Waktu Pengajuan'},
                         ]
@@ -105,9 +102,6 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
-                            {content : 'Pangkat/Jabatan'},
-                            {content : 'Golongan'},
                             {content : 'Gaji'},
                             {content : 'Aksi'},
                         ]
@@ -127,9 +121,6 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
-                            {content : 'Pangkat/Jabatan'},
-                            {content : 'Golongan'},
                             {content : 'Pensiun Pada'},
                         ]
                     })
@@ -149,9 +140,6 @@
                         {
                             content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_admin + officer.user.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+officer.user.name+'</h5><span class="text-muted font-14">'+officer.identity+'</span></div></div>',
                         },
-                        {content : '<span class="font-weight-medium text-uppercase">' + officer.status + '</span>'},
-                        {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                        {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                         {content : '<span class="font-weight-medium">' + _date.timestamp_old(officer.created_at) + '</span>'},
                         {content : '<span class="font-weight-medium">' + _date.convert_created_at(request.created_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '</span>'},
                     ],
@@ -164,9 +152,6 @@
                             {
                                 content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_admin + officer.user.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+officer.user.name+'</h5><span class="text-muted font-14">'+officer.identity+'</span></div></div>',
                             },
-                            {content : '<span class="font-weight-medium text-uppercase">' + officer.status + '</span>'},
-                            {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                            {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                             {content : '<span class="font-weight-medium"><small class="text-muted">Rp.</small> ' + officerSalary(officer.salary) + '</span>'},
                             {
                                 content : _btn_group.make([
@@ -190,9 +175,6 @@
                                                             {
                                                                 content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_admin + officer.user.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+officer.user.name+'</h5><span class="text-muted font-14">'+officer.identity+'</span></div></div>',
                                                             },
-                                                            {content : '<span class="font-weight-medium text-uppercase">' + officer.status + '</span>'},
-                                                            {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                                                            {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                                                             {content : '<span class="font-weight-medium">' + _date.timestamp_old(officer.created_at) + '</span>'},
                                                             {content : '<span class="font-weight-medium">' + _date.convert_created_at(mutate.created_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '</span>'},
                                                         ],
@@ -271,9 +253,6 @@
                         {
                             content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_admin + officer.user.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+officer.user.name+'</h5><span class="text-muted font-14">'+officer.identity+'</span></div></div>',
                         },
-                        {content : '<span class="font-weight-medium text-uppercase">' + officer.status + '</span>'},
-                        {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                        {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                         {content : '<span class="font-weight-medium">' + _date.convert_created_at(officer.updated_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '</span>'},
                     ],
                 });

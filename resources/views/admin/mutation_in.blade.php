@@ -163,9 +163,6 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
-                            {content : 'Pangkat/Golongan'},
-                            {content : 'Ruang'},
                             {content : 'Gaji'},
                         ]
                     })
@@ -220,9 +217,6 @@
                         template : 'custom',
                         column : [
                             {content : 'Profil'},
-                            {content : 'Jenis'},
-                            {content : 'Pangkat/Jabatan'},
-                            {content : 'Golongan'},
                             {content : 'Masuk Pada'},
                         ]
                     })
@@ -248,9 +242,6 @@
                         {
                             content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_user + citizen.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+citizen.name+'</h5><span class="text-muted font-14">'+citizen.identity+'</span></div></div>',
                         },
-                        {content : '<span class="font-weight-medium text-uppercase">' + request.status + '</span>'},
-                        {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                        {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                         {content : '<span class="font-weight-medium"><small class="text-muted">Rp.</small> ' + officerSalary(request.salary) + '</span>'},
                     ],
                 });
@@ -299,9 +290,6 @@
                                 {
                                     content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_admin + user.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+citizen.name+'</h5><span class="text-muted font-14">'+officer.identity+'</span></div></div>',
                                 },
-                                {content : '<span class="font-weight-medium text-uppercase">' + officer.status + '</span>'},
-                                {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted"> / </small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                                {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                                 {content : '<span class="font-weight-medium">' + _date.convert_created_at(officer.created_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '</span>'},
                             ],
                         });
@@ -356,9 +344,6 @@
                             {
                                 content: '<div class="d-flex no-block align-items-center"><div class="mr-3"><img src="'+ pic_user + ctz.pic +'" alt="user" class="rounded-circle" width="45" height="45" /></div><div class=""><h5 class="text-dark mb-0 font-16 font-weight-medium">'+ctz.name+'</h5><span class="text-muted font-14">'+ctz.identity+'</span></div></div>',
                             },
-                            {content : '<span class="font-weight-medium text-uppercase">' + res.status_ + '</span>'},
-                            {content : '<span class="font-weight-medium text-capitalize">' + roomSet[0] + '<small class="text-muted">/</small><span class="text-uppercase">' + roomSet[1] + '</span></span>'},
-                            {content : '<span class="font-weight-medium text-uppercase">' + roomSet[2] + '</span>'},
                             {content : '<span class="font-weight-medium"><small class="text-muted">Rp.</small> ' + officerSalary(res.salary) + '</span>'},
                         ],
                     });
