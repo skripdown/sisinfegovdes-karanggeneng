@@ -100,7 +100,7 @@ class ArchiveController extends Controller
                 }
                 $obj->save();
 
-                $new = Archivetype::with(['officer','officer.user','archives','archives.archivefiles','archives.officer','archives.officer.user'])->firstWhere('id', $obj->id);
+                $new = Archivetype::with(['officer','officer.user','archives','archives.archivefile','archives.officer','archives.officer.user'])->firstWhere('id', $obj->id);
                 $status  = ['status'=>'success','message'=>'Berhasil merubah tipe arsip', 'archivetype'=>$new];
                 _Log::log(_Log::$SUCCESS,'sending request edit archivetype success');
                 _Activity::do('merubah tipe arsip ' . $name);

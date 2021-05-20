@@ -489,8 +489,7 @@
                             element : 'archive-types',
                             template : 'custom',
                             column : [
-                                {content : 'Jenis'},
-                                {content : 'Kode'},
+                                {content : 'Berkas'},
                                 {content : 'Jumlah'},
                                 {content : 'Terakhir Diubah'},
                                 {content : 'Aksi'},
@@ -530,21 +529,46 @@
                 }
             ]
         });
+        window.fileProperty = _properties.render({
+            id : 'file_property',
+            element : '#archive-detail',
+            groups : [
+                {
+                    type : 'none',
+                    menus : [],
+                },
+                {
+                    type : 'single',
+                    menus : [
+                        {content:'<i class="ti-trash font-weight-bold"></i>&nbsp;&nbsp;delete', fun:function () {console.log('delete called')}},
+                        {content:'<i class="ti-download font-weight-bold"></i>&nbsp;&nbsp;download', fun:function () {console.log('download called')}},
+                        {content:'<i class="ti-pencil font-weight-bold"></i>&nbsp;&nbsp;edit', fun:function () {console.log('edit called')}},
+                    ]
+                }
+            ]
+        });
+        fileProperty.switch('none');
         let node_iter = _folder._first;
         while (node_iter !== undefined) {
             const folder = node_iter;
+            const icon   = _profileList.make(_dir.create(''), folder.name, folder.code);
             const key    = makeFiles(folder);
             const editor = itsMe(folder.officer);
             _tables.insert({
                 element : 'archive-types',
                 column  : [
                     {
-                        content : '<span class="font-weight-medium">' + folder.name + '</span>',
+                        content : icon,
                         click   : function (e) {
                             window.focus_key = key;
                             window.focus_tar = e.target;
                             document.getElementById('form-edit-ip-0').value = folder.id + '';
                             document.getElementById('form-edit-ip-1').value = folder.name;
+                            fileProperty.close();
+                            if (folder.archives.length > 0)
+                                fileProperty.switch('single');
+                            else
+                                fileProperty.switch('none');
                             _card.content('files-archive', _files[key]);
                             _card.show('edit-archive');
                         },
@@ -552,7 +576,6 @@
                             _card.focus('edit-archive');
                         }
                     },
-                    {content : '<span class="font-weight-medium">' + folder.code + '</span>'},
                     {content : '<span class="font-weight-medium">' + folder.archives.length + ' <small class="text-muted">arsip</small></span>'},
                     {content : '<span class="font-weight-medium">' + _date.convert_created_at(folder.updated_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '&nbsp;&nbsp;&nbsp;<small class="text-muted">oleh</small> ' + editor + '</span>'},
                     {
@@ -587,10 +610,10 @@
                 const archivetype = res.archivetype;
                 let tr = window.focus_tar;
                 while (tr.nodeName !== 'TR') {tr = tr.parentNode;}
-                let td_name   = tr.firstChild;
-                let td_size   = tr.children[2];
-                let td_change = tr.children[3];
-                let td_button = tr.children[4];
+                let td_name   = tr.firstChild.firstChild.children[1].firstChild;
+                let td_size   = tr.children[1];
+                let td_change = tr.children[2];
+                let td_button = tr.children[3];
                 const key     = 'files-' + archivetype.id;
                 td_name.addEventListener('click', function (e) {
                     window.focus_tar = e.target;
@@ -600,7 +623,7 @@
                     _card.content('files-archive', _files[key]);
                     _card.show('edit-archive');
                 });
-                td_name.innerHTML   = '<span class="font-weight-medium">' + archivetype.name + '</span>';
+                td_name.innerHTML   = archivetype.name;
                 td_size.innerHTML   = '<span class="font-weight-medium">' + archivetype.archives.length + ' <small class="text-muted">arsip</small></span>';
                 td_change.innerHTML = '<span class="font-weight-medium">' + _date.convert_created_at(archivetype.updated_at, '<small class="text-muted"> WIB</small>', '<small class="text-muted pr-1">tanggal </small>', '<small class="text-muted pl-4 pr-1"> pukul </small>') + '&nbsp;&nbsp;&nbsp;<small class="text-muted">oleh</small> ' + itsMe(archivetype.officer) + '</span>';
                 td_button.innerHTML = '';
@@ -744,25 +767,6 @@
             _popup.content(output);
             _transition.out();
         });
-        window.fileProperty = _properties.render({
-            id : 'file_property',
-            element : '#archive-detail',
-            groups : [
-                {
-                    type : 'none',
-                    menus : [],
-                },
-                {
-                    type : 'single',
-                    menus : [
-                        {content:'<i class="ti-trash font-weight-bold"></i>&nbsp;&nbsp;delete', fun:function () {console.log('delete called')}},
-                        {content:'<i class="ti-download font-weight-bold"></i>&nbsp;&nbsp;download', fun:function () {console.log('download called')}},
-                        {content:'<i class="ti-pencil font-weight-bold"></i>&nbsp;&nbsp;edit', fun:function () {console.log('edit called')}},
-                    ]
-                }
-            ]
-        });
-        fileProperty.switch('none');
         _card.hide('edit-archive');
         _popup.init({element : 'popup-notification', align : 'center',});
         _transition.out();
